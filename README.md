@@ -1,8 +1,8 @@
 # HUBCSS
 
-HUBCSS is a local-first design system for React applications that need fast
-rendering, offline-friendly assets, and full ownership of CSS, icons, and
-fonts.
+HUBCSS is the design-system source used by the Hub and Hub-connected
+applications. It builds offline-friendly CSS, icons, and fonts into one
+versioned artifact that the Hub serves at runtime.
 
 The package stays intentionally small:
 
@@ -11,28 +11,31 @@ The package stays intentionally small:
 - Lucide icons compiled into one SVG sprite.
 - Optional React Icon helper for svg use references.
 - No CDN dependency, no CSS-in-JS runtime, no external font request.
+- One canonical production distribution path: build HUBCSS, upload the packed
+  artifact to the Hub, and let applications sync from the Hub manifest.
 
 ## Status
 
-HUBCSS is ready for public source distribution on GitHub. The package already
-supports local registry workflows and can also be consumed from a tarball or a
-Git checkout while the publication strategy evolves.
+HUBCSS is ready for public source distribution on GitHub. The production
+distribution model for this stack is Hub-served runtime assets: `npm run pack`
+produces a `dist.tar.gz` that an administrator uploads in the Hub under
+**Admin > Design System**. Applications keep a local seed fallback, then sync
+the canonical runtime bundle from `/api/design-system/manifest`.
 
 Public source repository: <https://github.com/POULIDOR-Audit-Developpement/HUBCSS>
 
 ## Install
 
-Choose the delivery model that fits your environment:
+For production Hub deployments, build and pack the Hub artifact:
 
 ```bash
-npm pack
-npm install ./poutchouli-design-system-0.1.0.tgz
+npm install
+npm run pack
 ```
 
-If you are using a private registry such as Verdaccio, see `docs/VERDACCIO.md`.
-When the package is published to a registry, the install command can switch to
-the standard package name. For now, the documented baseline is tarball, local
-registry, or workspace-based consumption.
+Upload the resulting `dist.tar.gz` to the Hub. Tarball install, Verdaccio, and
+workspace dependencies are kept as development/test workflows, not the
+production contract for Hub applications.
 
 ## Use In A Tailwind v4 App
 
@@ -43,7 +46,8 @@ utilities used by the consuming application:
 @import "@poutchouli/design-system/source.css";
 ```
 
-This is the preferred production path for application bundles.
+Use this for standalone package experiments. Hub-connected applications should
+prefer the runtime sync path documented in `docs/HOW2USE.md`.
 
 ## Use The Prebuilt CSS
 
@@ -121,11 +125,11 @@ CDN domains.
 
 ## Documentation
 
-- `docs/HOW2USE.md` explains how applications retrieve and integrate HUBCSS.
+- `docs/HOW2USE.md` explains the Hub-served runtime model and app fallback seed.
 - `docs/DEMO.md` covers the reference validation flow.
-- `docs/LOCAL_ASSETS.md` explains package mode and shared asset serving.
+- `docs/LOCAL_ASSETS.md` explains Hub runtime assets and local fallback seeds.
 - `docs/PERFORMANCE.md` documents the current bundle budgets.
-- `docs/VERDACCIO.md` documents the optional private registry workflow.
+- `docs/VERDACCIO.md` documents the development-only private registry workflow.
 
 ## Contributing And Support
 

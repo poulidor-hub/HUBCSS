@@ -1,31 +1,42 @@
-# Local Asset Serving
+# Hub Runtime Asset Serving
 
-The design system supports two local-first delivery modes.
+The production delivery model is Hub-served runtime assets with a local fallback
+seed in each application.
 
-## Package Mode
+## Canonical Runtime Mode
 
-Applications install `@poutchouli/design-system` from a package source during
-their build. That source can be npm, a private registry, a tarball, or a local
-workspace checkout. The final app bundle contains the CSS and copied sprite
-assets. This is the simplest mode and works without a shared runtime asset
-server.
+HUBCSS is built once, packed as `dist.tar.gz`, uploaded to the Hub, and then
+served from versioned Hub URLs. Applications do not point directly at this
+repository and do not install separate HUBCSS package versions in production.
 
-Recommended app steps:
+Runtime flow:
 
-1. Install the package from your chosen registry or package source.
-2. Import `@poutchouli/design-system/source.css` from the app CSS entry.
-3. Copy `dist/icons/lucide.svg` to the app static directory.
-4. Serve app assets from the app NGINX container.
+1. Hub exposes `/api/design-system/manifest`.
+2. The app backend downloads the listed files, verifies sha256, and swaps the
+   local `current/` bundle atomically.
+3. The app frontend loads `/design-system/current/global.css`, `fonts.css`, and
+   `icons/lucide.svg` from its own NGINX container.
+4. SSE or page reloads pick up new Hub versions without rebuilding the app.
 
-## Shared Asset Server Mode
+## Local Seed Fallback
 
-Use NGINX when several apps should share versioned asset URLs on the local
-network. Copy package outputs into a versioned directory such as:
+The template embeds one HUBCSS seed in the backend image and frontend assets.
+It exists for first boot, offline development, and Hub outages. It is not the
+long-term source of truth once the Hub has an active design-system version.
+
+Typical app runtime layout:
 
 ```txt
-/usr/share/nginx/html/design-system/0.1.0/global.css
-/usr/share/nginx/html/design-system/0.1.0/icons/lucide.svg
+/var/lib/app/design-system/current/global.css
+/var/lib/app/design-system/current/fonts.css
+/var/lib/app/design-system/current/icons/lucide.svg
 ```
 
-Assets with versioned paths can use immutable caching. Manifests and HTML files
-should stay revalidated or no-store.
+## Development Package Modes
+
+The package, tarball, Verdaccio registry, and workspace path workflows remain
+useful for local HUBCSS development and demo validation. They are documented as
+development tools, not as production distribution models for Hub apps.
+
+Versioned Hub assets can use immutable caching. Manifests, app HTML, and local
+`current/` pointers should stay revalidated or no-store.

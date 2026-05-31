@@ -4,7 +4,7 @@
 
 - Stabilize the public GitHub release workflow.
 - Keep the README and demo aligned with the public package surface.
-- Confirm the long-term package publication strategy.
+- Keep the Hub-served runtime contract documented as the production path.
 - Tighten performance budgets after the first production consumer.
 
 ## Next
@@ -16,5 +16,5 @@
 ## Non Goals For Now
 
 - A large component catalog without clear design constraints.
-- Runtime theming systems that depend on remote assets or hosted services.
-- Multiple parallel distribution models with undocumented differences.
+- Runtime theming systems outside the Hub manifest/sync contract.
+- Multiple parallel production distribution models with undocumented differences.
