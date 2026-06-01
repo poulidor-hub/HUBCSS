@@ -8,7 +8,9 @@ The package is optimized for static rendering and low machine impact.
 - No external font request.
 - No icon path duplication in React component trees.
 - Theme changes use CSS variables on `:root` or `[data-theme="dark"]`.
-- Production icons use one SVG sprite and `<use>` references.
+- Production UI icons use one SVG sprite and `<use>` references.
+- Legacy Hub application icons use the local Bootstrap Icons font bundle when
+	the Hub must preserve historic `bi-*` application icon choices.
 
 ## Initial Budgets
 
@@ -20,6 +22,9 @@ The package is optimized for static rendering and low machine impact.
 | `dist/icons/lucide.svg` | 96 KB | 24 KB |
 
 Tighten these numbers after the first real app consumes the package.
+The Bootstrap Icons compatibility bundle is tracked through the packed manifest
+but is not part of the core CSS/Lucide budgets because it preserves a legacy
+application-icon contract rather than the primary HUBCSS component surface.
 
 ## Demo Scenario
 

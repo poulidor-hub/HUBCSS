@@ -29,6 +29,8 @@ The build outputs exposed to the Hub and to local fallback seeds are:
 
 - `global.css` for HUBCSS components and tokens.
 - `fonts.css` for bundled local fonts.
+- `bootstrap-icons/bootstrap-icons.css` and its `fonts/` files for legacy
+  Bootstrap Icons classes used by Hub application icons.
 - `icons/lucide.svg` for the generated Lucide sprite.
 - `react/Icon.js` and `react/Icon.d.ts` for the optional React `Icon` helper.
 - `manifest.json` with `{version, generated_at, files:[{path,size,sha256}]}`
@@ -55,6 +57,8 @@ and temporary development loops:
 
 - `@poutchouli/design-system` for the prebuilt CSS.
 - `@poutchouli/design-system/source.css` for Tailwind CSS v4 experiments.
+- `@poutchouli/design-system/bootstrap-icons.css` for legacy Bootstrap Icons
+  class compatibility in development-only package flows.
 - `@poutchouli/design-system/react` for the optional React `Icon` helper.
 - `@poutchouli/design-system/icons.svg` for package-based sprite access.
 
@@ -160,6 +164,11 @@ import '@poutchouli/design-system';
 You still need to serve the Lucide sprite locally if you use the icon helper or
 SVG `<use>` references.
 
+If you also need legacy Hub application icon classes such as `bi-app`, import
+or serve `bootstrap-icons/bootstrap-icons.css` with its sibling `fonts/`
+directory. Hub production deployments normally receive these files through the
+runtime manifest.
+
 ## Runtime Asset Requirement
 
 For Hub applications, CSS, fonts, and the icon sprite are runtime assets served
@@ -169,6 +178,8 @@ Minimum expectation for one application:
 
 ```txt
 public/design-system/icons/lucide.svg
+public/design-system/bootstrap-icons/bootstrap-icons.css
+public/design-system/bootstrap-icons/fonts/bootstrap-icons.woff2
 ```
 
 The template handles this automatically:
@@ -187,6 +198,7 @@ Example layout:
 
 ```txt
 https://hub.local/design-system/0.1.0/global.css
+https://hub.local/design-system/0.1.0/bootstrap-icons/bootstrap-icons.css
 https://hub.local/design-system/0.1.0/icons/lucide.svg
 https://hub.local/api/design-system/manifest
 ```
@@ -204,6 +216,9 @@ After `npm run build`, HUBCSS produces:
 
 - `dist/global.css`
 - `dist/fonts.css`
+- `dist/bootstrap-icons/bootstrap-icons.css`
+- `dist/bootstrap-icons/fonts/bootstrap-icons.woff`
+- `dist/bootstrap-icons/fonts/bootstrap-icons.woff2`
 - `dist/icons/lucide.svg`
 - `dist/react/Icon.js`
 - `dist/react/Icon.d.ts`
@@ -229,7 +244,8 @@ After integration, verify:
 
 1. `npm run build` and `npm run pack` produce `dist.tar.gz` and `manifest.json`.
 2. The Hub accepts the upload and exposes `/api/design-system/manifest`.
-3. The app can fetch `/design-system/current/global.css` and
+3. The app can fetch `/design-system/current/global.css`,
+  `/design-system/current/bootstrap-icons/bootstrap-icons.css`, and
   `/design-system/current/icons/lucide.svg` after sync.
 4. Icons render correctly in the UI.
 5. `npm run check:offline` still passes in HUBCSS after package changes.

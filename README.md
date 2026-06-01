@@ -9,6 +9,7 @@ The package stays intentionally small:
 - Tailwind CSS v4 source CSS with CSS-first tokens.
 - Prebuilt static CSS for prototypes and non-Tailwind consumers.
 - Lucide icons compiled into one SVG sprite.
+- Bootstrap Icons font assets for legacy Hub application icons.
 - Optional React Icon helper for svg use references.
 - No CDN dependency, no CSS-in-JS runtime, no external font request.
 - One canonical production distribution path: build HUBCSS, upload the packed
@@ -87,6 +88,9 @@ The build produces:
 
 - `dist/global.css`
 - `dist/fonts.css`
+- `dist/bootstrap-icons/bootstrap-icons.css`
+- `dist/bootstrap-icons/fonts/bootstrap-icons.woff`
+- `dist/bootstrap-icons/fonts/bootstrap-icons.woff2`
 - `dist/icons/lucide.svg`
 - `dist/react/Icon.js`
 - `dist/react/Icon.d.ts`

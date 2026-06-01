@@ -38,6 +38,7 @@
     ".": "./dist/global.css",
     "./source.css": "./src/styles/global.css",
     "./fonts.css": "./dist/fonts.css",
+    "./bootstrap-icons.css": "./dist/bootstrap-icons/bootstrap-icons.css",
     "./icons.svg": "./dist/icons/lucide.svg",
     "./react": {
       "types": "./dist/react/Icon.d.ts",
@@ -47,9 +48,10 @@
   },
   "scripts": {
     "clean": "node scripts/clean.mjs",
-    "build": "npm run clean && npm run build:css && npm run build:icons && npm run build:react && npm run check:offline && npm run check:budgets",
+    "build": "npm run clean && npm run build:css && npm run build:icons && npm run build:bootstrap-icons && npm run build:react && npm run check:offline && npm run check:budgets",
     "build:css": "node scripts/build-css.mjs",
     "build:icons": "node scripts/build-icons.mjs",
+    "build:bootstrap-icons": "node scripts/build-bootstrap-icons.mjs",
     "build:react": "node scripts/build-react.mjs",
     "check:offline": "node scripts/check-offline.mjs",
     "check:budgets": "node scripts/check-budgets.mjs",
@@ -64,6 +66,7 @@
     "react": ">=18.0.0"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.13.1",
     "lucide-static": "^0.460.0"
   },
   "devDependencies": {

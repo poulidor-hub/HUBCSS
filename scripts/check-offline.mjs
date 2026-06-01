@@ -21,6 +21,7 @@ function isAllowedLocalUrl(url) {
     const parsed = new URL(url);
     const host = parsed.hostname.toLowerCase();
     if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host === '::1') return true;
+    if (host.endsWith('.local')) return true;
     if (host === 'www.w3.org' && parsed.pathname === '/2000/svg') return true;
     if (/^10\./.test(host) || /^192\.168\./.test(host)) return true;
     const private172 = host.match(/^172\.(\d+)\./);

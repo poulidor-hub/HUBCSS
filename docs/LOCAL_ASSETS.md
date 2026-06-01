@@ -14,8 +14,9 @@ Runtime flow:
 1. Hub exposes `/api/design-system/manifest`.
 2. The app backend downloads the listed files, verifies sha256, and swaps the
    local `current/` bundle atomically.
-3. The app frontend loads `/design-system/current/global.css`, `fonts.css`, and
-   `icons/lucide.svg` from its own NGINX container.
+3. The app frontend loads `/design-system/current/global.css`, `fonts.css`,
+   `bootstrap-icons/bootstrap-icons.css`, and `icons/lucide.svg` from its own
+   NGINX container.
 4. SSE or page reloads pick up new Hub versions without rebuilding the app.
 
 ## Local Seed Fallback
@@ -29,6 +30,8 @@ Typical app runtime layout:
 ```txt
 /var/lib/app/design-system/current/global.css
 /var/lib/app/design-system/current/fonts.css
+/var/lib/app/design-system/current/bootstrap-icons/bootstrap-icons.css
+/var/lib/app/design-system/current/bootstrap-icons/fonts/bootstrap-icons.woff2
 /var/lib/app/design-system/current/icons/lucide.svg
 ```
 
