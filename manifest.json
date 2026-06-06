@@ -1,7 +1,22 @@
 {
   "version": "0.1.0",
-  "generated_at": "2026-05-14T10:05:03.523Z",
+  "generated_at": "2026-06-06T16:44:21.694Z",
   "files": [
+    {
+      "path": "bootstrap-icons/bootstrap-icons.css",
+      "size": 99369,
+      "sha256": "e8936b968b1930ff0773947b5fb02048946be6d1b590c279d2cba659e80d0795"
+    },
+    {
+      "path": "bootstrap-icons/fonts/bootstrap-icons.woff",
+      "size": 180288,
+      "sha256": "f55513b7b591cb84a3b87ff0e34ea24d4831d6fedc22e54b911ca64b5b544a15"
+    },
+    {
+      "path": "bootstrap-icons/fonts/bootstrap-icons.woff2",
+      "size": 134044,
+      "sha256": "6c75710364a1ca5604267716f6d28997b26319fdb078cf11e0b42ab66ff2ea61"
+    },
     {
       "path": "fonts.css",
       "size": 217,
@@ -9,13 +24,13 @@
     },
     {
       "path": "global.css",
-      "size": 14873,
-      "sha256": "54fab1f997222b17575b6168c4436ee5d319b29d17821ae306acb26b7f60a2c5"
+      "size": 16099,
+      "sha256": "348a113ea367e7dff8357ebd607994ea61c4a7716abba58aefe3982dfbe03a62"
     },
     {
       "path": "icons/lucide.svg",
-      "size": 8042,
-      "sha256": "a238b3a087074e14f641712111b37f374a818433c35359fcc5096b5319f6dcee"
+      "size": 55899,
+      "sha256": "a738af18089c4cd63042a200ca5301d0e006bbff2522788c7f0d823daf3fe15f"
     },
     {
       "path": "react/Icon.d.ts",
