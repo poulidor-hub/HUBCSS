@@ -710,6 +710,146 @@
   .hub-search-badge-reset:hover {
     background: var(--hub-color-accent-soft);
   }
+
+  .hub-stat-card {
+    background: var(--hub-color-surface);
+    border: 1px solid var(--hub-color-border);
+    border-radius: var(--radius-hub);
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: box-shadow var(--hub-transition-fast) var(--hub-easing-standard);
+  }
+
+  .hub-stat-card:hover {
+    box-shadow: var(--shadow-hub);
+  }
+
+  .hub-stat-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-hub);
+    background: var(--hub-color-surface-muted);
+    color: var(--hub-color-text);
+    flex-shrink: 0;
+  }
+
+  .hub-stat-card-body {
+    min-width: 0;
+  }
+
+  .hub-stat-card-label {
+    color: var(--hub-color-muted);
+    font-size: var(--hub-font-size-sm);
+    font-weight: 550;
+    margin: 0 0 4px;
+  }
+
+  .hub-stat-card-value {
+    font-size: var(--hub-font-size-3xl);
+    font-weight: var(--hub-font-weight-bold);
+    color: var(--hub-color-text);
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .hub-stat-card-trend {
+    font-size: var(--hub-font-size-xs);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 2px;
+  }
+
+  .hub-stat-card-trend--up { color: var(--hub-color-success); }
+  .hub-stat-card-trend--down { color: var(--hub-color-danger); }
+  .hub-stat-card-trend--neutral { color: var(--hub-color-muted); }
+
+  .hub-timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .hub-timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--hub-color-border);
+  }
+
+  .hub-timeline-event {
+    position: relative;
+    padding-bottom: 24px;
+    animation: hub-fade-in var(--hub-transition-base) var(--hub-easing-standard);
+  }
+
+  .hub-timeline-event:last-child {
+    padding-bottom: 0;
+  }
+
+  .hub-timeline-dot {
+    position: absolute;
+    left: -32px;
+    top: 3px;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-hub-full);
+    background: var(--hub-color-primary);
+    border: 2px solid var(--hub-color-surface);
+    box-shadow: 0 0 0 2px var(--hub-color-primary);
+    z-index: 1;
+  }
+
+  .hub-timeline-dot--muted { background: var(--hub-color-muted); box-shadow: 0 0 0 2px var(--hub-color-muted); }
+  .hub-timeline-dot--accent { background: var(--hub-color-accent-strong); box-shadow: 0 0 0 2px var(--hub-color-accent-strong); }
+  .hub-timeline-dot--danger { background: var(--hub-color-danger); box-shadow: 0 0 0 2px var(--hub-color-danger); }
+  .hub-timeline-dot--success { background: var(--hub-color-success); box-shadow: 0 0 0 2px var(--hub-color-success); }
+  .hub-timeline-dot--warning { background: var(--hub-color-warning); box-shadow: 0 0 0 2px var(--hub-color-warning); }
+
+  .hub-timeline-time {
+    font-size: var(--hub-font-size-xs);
+    color: var(--hub-color-muted);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hub-timeline-title {
+    font-size: var(--hub-font-size-base);
+    font-weight: 600;
+    color: var(--hub-color-text);
+    margin: 0 0 2px;
+  }
+
+  .hub-timeline-description {
+    font-size: var(--hub-font-size-sm);
+    color: var(--hub-color-muted);
+    margin: 0;
+  }
+
+  .hub-timeline-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 650;
+    padding: 2px 8px;
+    border-radius: var(--radius-hub-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .hub-timeline-tag--info { background: var(--hub-color-primary-soft); color: var(--hub-color-primary-strong); }
+  .hub-timeline-tag--action { background: var(--hub-color-accent-soft); color: var(--hub-color-accent-strong); }
+  .hub-timeline-tag--danger { background: var(--hub-color-danger-soft); color: var(--hub-color-danger); }
+  .hub-timeline-tag--success { background: var(--hub-color-success-soft); color: var(--hub-color-success); }
+  .hub-timeline-tag--warning { background: var(--hub-color-warning-soft); color: var(--hub-color-warning); }
 }
 
 @keyframes hub-pulse {

@@ -13,6 +13,8 @@ const components = [
   'SearchInput',
   'Skeleton',
   'EmptyState',
+  'Timeline',
+  'StatCard',
 ];
 
 await mkdir(outputDir, { recursive: true });

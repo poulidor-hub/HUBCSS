@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.1] - 2026-06-07
+
+### Added
+- `.hub-timeline` component: vertical timeline with color-coded dots and event cards.
+- `.hub-timeline-dot`: variants `--muted`, `--accent`, `--danger`, `--success`, `--warning`.
+- `.hub-timeline-time`, `.hub-timeline-title`, `.hub-timeline-description` sub-elements.
+- `.hub-timeline-tag`: event type tags with variants `--info`, `--action`, `--danger`, `--success`, `--warning`.
+- `.hub-stat-card` component: dashboard stat widget with icon, label, value, trend indicator.
+- `.hub-stat-card-trend`: variants `--up`, `--down`, `--neutral` with arrow icons.
+- React component `Timeline`: renders event arrays with staggered fade-in animation.
+- React component `StatCard`: renders stat cards with optional icon and trend.
+- TypeScript declarations for both new React components.
+
+### Changed
+- Version bump to `0.2.1`.
+- All 9 React components now included in barrel exports and build pipeline.
+
 ## [0.2.0] - 2026-06-07
 
 ### Added
