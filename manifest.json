@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0",
-  "generated_at": "2026-06-06T16:44:21.694Z",
+  "version": "0.2.0",
+  "generated_at": "2026-06-07T18:36:38.366Z",
   "files": [
     {
       "path": "bootstrap-icons/bootstrap-icons.css",
@@ -24,13 +24,38 @@
     },
     {
       "path": "global.css",
-      "size": 16099,
-      "sha256": "348a113ea367e7dff8357ebd607994ea61c4a7716abba58aefe3982dfbe03a62"
+      "size": 23301,
+      "sha256": "d843f05af6ead9d78d9005821f5cf95292cad7507b2cf033cf04020a71657a41"
     },
     {
       "path": "icons/lucide.svg",
       "size": 55899,
       "sha256": "a738af18089c4cd63042a200ca5301d0e006bbff2522788c7f0d823daf3fe15f"
+    },
+    {
+      "path": "python/match_fields.py",
+      "size": 6418,
+      "sha256": "21d4aef8601afd28f706b89c837d9ecede8d8a7a4135d52287520e67ace0cf24"
+    },
+    {
+      "path": "react/EmptyState.d.ts",
+      "size": 312,
+      "sha256": "17236e4fe8c323e2995fe9420202b4249bb12ca2f2670fc36220cfefd8f9ed08"
+    },
+    {
+      "path": "react/EmptyState.js",
+      "size": 755,
+      "sha256": "bc0a8c9727396b4192da9f3dc4a6d9ad4a758302631011f1e21a1f81747bbd23"
+    },
+    {
+      "path": "react/HighlightText.d.ts",
+      "size": 257,
+      "sha256": "850148f2a523251e5493c8ac9d6bb50600c3207d5be085cd70d6536ffa1443f2"
+    },
+    {
+      "path": "react/HighlightText.js",
+      "size": 814,
+      "sha256": "7bb85b68737a687124b45840ff24d655925e81782eaea1502f6b1636fb40468e"
     },
     {
       "path": "react/Icon.d.ts",
@@ -41,6 +66,46 @@
       "path": "react/Icon.js",
       "size": 842,
       "sha256": "bb4ee4363aaefb0134554060cf49f80084002fab63b50a9ee3d9185067b53605"
+    },
+    {
+      "path": "react/SearchBadgeBar.d.ts",
+      "size": 392,
+      "sha256": "e77bf17a5599f30263e03047e56d8d3cda876bad1ae8912f7f99d696ce374d73"
+    },
+    {
+      "path": "react/SearchBadgeBar.js",
+      "size": 1918,
+      "sha256": "d6f16c13dbba9cabd77516923483914fb85b54cec53d5626f38d5259768f4ce5"
+    },
+    {
+      "path": "react/SearchInput.d.ts",
+      "size": 368,
+      "sha256": "aa98fc6e9c296c4cf4ca25a153c5282630f41970b371de3d01eea9b6768a76bb"
+    },
+    {
+      "path": "react/SearchInput.js",
+      "size": 2891,
+      "sha256": "92031eb7ccd6576bbba480218ef16eefba990c662015a29bcbd3647963c9ac1e"
+    },
+    {
+      "path": "react/Skeleton.d.ts",
+      "size": 542,
+      "sha256": "0c9358307c1e2aa4414c3b686724f5e696e1b565fd490cfe73646e9ec8831e29"
+    },
+    {
+      "path": "react/Skeleton.js",
+      "size": 1018,
+      "sha256": "480ebaa6449281935281bd2011448eedc52fe05d04eda76a11a65a0bd74d8ffe"
+    },
+    {
+      "path": "react/index.d.ts",
+      "size": 646,
+      "sha256": "ea05448e48d2ea37ccb6db46eafeddb3387e84c4e2a4fd8784e0a24b2bc64f32"
+    },
+    {
+      "path": "react/index.js",
+      "size": 290,
+      "sha256": "563b12678479e062af8b45e3467562bc596cce981b0d2d171418c2e1db80c30d"
     }
   ]
 }

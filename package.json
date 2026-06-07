@@ -1,6 +1,6 @@
 {
   "name": "@poutchouli/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Local-first Tailwind CSS v4 design system with Lucide SVG sprites.",
   "keywords": [
     "design-system",
@@ -29,6 +29,8 @@
   "files": [
     "dist",
     "src/styles",
+    "src/react",
+    "src/python",
     "src/icons/icons.manifest.json",
     "README.md",
     "LICENSE.md",
@@ -41,18 +43,43 @@
     "./bootstrap-icons.css": "./dist/bootstrap-icons/bootstrap-icons.css",
     "./icons.svg": "./dist/icons/lucide.svg",
     "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
+    },
+    "./react/Icon": {
       "types": "./dist/react/Icon.d.ts",
       "default": "./dist/react/Icon.js"
+    },
+    "./react/HighlightText": {
+      "types": "./dist/react/HighlightText.d.ts",
+      "default": "./dist/react/HighlightText.js"
+    },
+    "./react/SearchBadgeBar": {
+      "types": "./dist/react/SearchBadgeBar.d.ts",
+      "default": "./dist/react/SearchBadgeBar.js"
+    },
+    "./react/SearchInput": {
+      "types": "./dist/react/SearchInput.d.ts",
+      "default": "./dist/react/SearchInput.js"
+    },
+    "./react/Skeleton": {
+      "types": "./dist/react/Skeleton.d.ts",
+      "default": "./dist/react/Skeleton.js"
+    },
+    "./react/EmptyState": {
+      "types": "./dist/react/EmptyState.d.ts",
+      "default": "./dist/react/EmptyState.js"
     },
     "./icons.manifest.json": "./src/icons/icons.manifest.json"
   },
   "scripts": {
     "clean": "node scripts/clean.mjs",
-    "build": "npm run clean && npm run build:css && npm run build:icons && npm run build:bootstrap-icons && npm run build:react && npm run check:offline && npm run check:budgets",
+    "build": "npm run clean && npm run build:css && npm run build:icons && npm run build:bootstrap-icons && npm run build:react && npm run build:python && npm run check:offline && npm run check:budgets",
     "build:css": "node scripts/build-css.mjs",
     "build:icons": "node scripts/build-icons.mjs",
     "build:bootstrap-icons": "node scripts/build-bootstrap-icons.mjs",
     "build:react": "node scripts/build-react.mjs",
+    "build:python": "node scripts/build-python.mjs",
     "check:offline": "node scripts/check-offline.mjs",
     "check:budgets": "node scripts/check-budgets.mjs",
     "pack": "npm run build && node scripts/pack-dist.mjs",
