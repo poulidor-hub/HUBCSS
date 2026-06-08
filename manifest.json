@@ -1,6 +1,6 @@
 {
   "version": "0.2.1",
-  "generated_at": "2026-06-07T19:21:02.192Z",
+  "generated_at": "2026-06-08T09:37:41.063Z",
   "files": [
     {
       "path": "bootstrap-icons/bootstrap-icons.css",
@@ -24,8 +24,8 @@
     },
     {
       "path": "global.css",
-      "size": 28282,
-      "sha256": "304b5e26f7184e1a6502aef172a50f9197827fe5f9dfdc2c011004baac0ad168"
+      "size": 34825,
+      "sha256": "95c28550ec874943e09ae0f302f77bb2df7b8f833bf18820cd6b18c0cf7c0607"
     },
     {
       "path": "icons/lucide.svg",
@@ -109,13 +109,13 @@
     },
     {
       "path": "react/Timeline.d.ts",
-      "size": 453,
-      "sha256": "90ee2d7881c18e7c1d306aa1b83745f6d78ec97695cb38e4d8fb0ed29f390d3c"
+      "size": 1285,
+      "sha256": "8c3a1cef9db73156ba3b8a545957c6ef94a0c6a060e5cf5cf40a4a345771c5e2"
     },
     {
       "path": "react/Timeline.js",
-      "size": 2280,
-      "sha256": "7a13a2207848c773bb6f3641f1a364460d91dd32328cddc4c375c86701d7dfd5"
+      "size": 20420,
+      "sha256": "99b9e167bf700ad688cd008858d4a940acf9c22aeee51bc464f27f8570405ee3"
     },
     {
       "path": "react/index.d.ts",
