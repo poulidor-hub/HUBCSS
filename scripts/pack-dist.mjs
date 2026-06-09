@@ -84,16 +84,18 @@ async function main() {
     process.exit(1)
   }
 
-  const files = (await walk(distDir)).sort()
+  const files = (await walk(distDir))
+    .filter(f => !relative(distDir, f).split(sep).join('/').startsWith('python/'))
+    .sort()
   if (files.length === 0) {
     console.error('❌ dist/ est vide')
     process.exit(1)
   }
 
-  // Construire le manifest
+  // Construire le manifest (deterministe : pas de generated_at, mtime fixes)
   const manifest = {
     version,
-    generated_at: new Date().toISOString(),
+    generated_at: '1970-01-01T00:00:00.000Z',
     files: [],
   }
   for (const f of files) {
@@ -114,7 +116,7 @@ async function main() {
   const tarStream = createWriteStream(tarPath)
 
   // 1) manifest.json à la racine — requis par le Hub
-  tarStream.write(tarHeader('manifest.json', manifestBuf.length, Date.now()))
+  tarStream.write(tarHeader('manifest.json', manifestBuf.length, 0))
   tarStream.write(manifestBuf)
   {
     const pad = (512 - (manifestBuf.length % 512)) % 512
@@ -125,7 +127,7 @@ async function main() {
   for (const f of files) {
     const rel = relative(distDir, f).split(sep).join('/')
     const st = statSync(f)
-    tarStream.write(tarHeader(rel, st.size, st.mtimeMs || Date.now()))
+    tarStream.write(tarHeader(rel, st.size, 0))
     await new Promise((res, rej) => {
       const r = createReadStream(f)
       r.on('end', res)

@@ -1,0 +1,27 @@
+name: HUBCSS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run pack
+      - name: Verify no python in runtime tarball
+        run: node -e "const m=require('./manifest.json');if(m.files.some(f=>f.path.startsWith('python/')))process.exit(1)"
+      - name: Verify reproducibility
+        run: |
+          cp manifest.json /tmp/manifest1.json
+          npm run pack
+          diff /tmp/manifest1.json manifest.json
