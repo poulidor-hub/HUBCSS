@@ -1,4 +1,5 @@
 import { createElement, Fragment } from 'react';
+import { Icon } from './Icon.js';
 
 export function SearchBadgeBar({
   detectedFields = [],
@@ -34,21 +35,11 @@ export function SearchBadgeBar({
           onClick: () => onToggleField?.(field),
         },
         label,
-        createElement(
-          'svg',
-          {
-            width: 12,
-            height: 12,
-            viewBox: '0 0 24 24',
-            fill: 'none',
-            stroke: 'currentColor',
-            strokeWidth: 2,
-            className: 'hub-search-badge-icon',
-          },
-          createElement('path', {
-            d: excluded ? 'M12 5v14M5 12h14' : 'M18 6L6 18M6 6l12 12',
-          }),
-        ),
+        createElement(Icon, {
+          name: excluded ? 'plus' : 'x',
+          size: 12,
+          className: 'hub-icon hub-search-badge-icon',
+        }),
       );
     }),
     excludedFields.size > 0 &&

@@ -6,7 +6,7 @@ optional and mainly useful for internal or air-gapped deployments.
 
 ## Package Configuration
 
-Use `.npmrc.example` as a starting point:
+Configure your `.npmrc` as follows:
 
 ```ini
 registry=http://127.0.0.1:4873/

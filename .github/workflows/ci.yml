@@ -25,3 +25,5 @@ jobs:
           cp manifest.json /tmp/manifest1.json
           npm run pack
           diff /tmp/manifest1.json manifest.json
+      - name: Quality gate — demo build
+        run: npm run demo:build

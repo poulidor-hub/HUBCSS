@@ -32,7 +32,7 @@ The build outputs exposed to the Hub and to local fallback seeds are:
 - `bootstrap-icons/bootstrap-icons.css` and its `fonts/` files for legacy
   Bootstrap Icons classes used by Hub application icons.
 - `icons/lucide.svg` for the generated Lucide sprite.
-- `react/Icon.js` and `react/Icon.d.ts` for the optional React `Icon` helper.
+- `react/Icon.js` et `react/Icon.d.ts`, `react/HighlightText.js`, `react/SearchBadgeBar.js`, `react/SearchInput.js`, `react/Skeleton.js`, `react/EmptyState.js`, `react/Timeline.js`, `react/StatCard.js` et leurs typages `.d.ts` pour la bibliothèque optionnelle de composants React.
 - `manifest.json` with `{version, generated_at, files:[{path,size,sha256}]}`
   in the packed artifact; the Hub runtime manifest adds served URLs.
 
@@ -59,7 +59,7 @@ and temporary development loops:
 - `@poutchouli/design-system/source.css` for Tailwind CSS v4 experiments.
 - `@poutchouli/design-system/bootstrap-icons.css` for legacy Bootstrap Icons
   class compatibility in development-only package flows.
-- `@poutchouli/design-system/react` for the optional React `Icon` helper.
+- `@poutchouli/design-system/react` pour le barrel (tous les composants React).
 - `@poutchouli/design-system/icons.svg` for package-based sprite access.
 
 Supported development retrieval methods are tarball, private registry, and
@@ -220,8 +220,14 @@ After `npm run build`, HUBCSS produces:
 - `dist/bootstrap-icons/fonts/bootstrap-icons.woff`
 - `dist/bootstrap-icons/fonts/bootstrap-icons.woff2`
 - `dist/icons/lucide.svg`
-- `dist/react/Icon.js`
-- `dist/react/Icon.d.ts`
+- `dist/react/Icon.js` `dist/react/Icon.d.ts`
+- `dist/react/HighlightText.js` `dist/react/HighlightText.d.ts`
+- `dist/react/SearchBadgeBar.js` `dist/react/SearchBadgeBar.d.ts`
+- `dist/react/SearchInput.js` `dist/react/SearchInput.d.ts`
+- `dist/react/Skeleton.js` `dist/react/Skeleton.d.ts`
+- `dist/react/EmptyState.js` `dist/react/EmptyState.d.ts`
+- `dist/react/Timeline.js` `dist/react/Timeline.d.ts`
+- `dist/react/StatCard.js` `dist/react/StatCard.d.ts`
 
 These are the artifacts your applications consume either directly or through
 package exports.

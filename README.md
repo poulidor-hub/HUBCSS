@@ -92,8 +92,14 @@ The build produces:
 - `dist/bootstrap-icons/fonts/bootstrap-icons.woff`
 - `dist/bootstrap-icons/fonts/bootstrap-icons.woff2`
 - `dist/icons/lucide.svg`
-- `dist/react/Icon.js`
-- `dist/react/Icon.d.ts`
+- `dist/react/Icon.js` `dist/react/Icon.d.ts`
+- `dist/react/HighlightText.js` `dist/react/HighlightText.d.ts`
+- `dist/react/SearchBadgeBar.js` `dist/react/SearchBadgeBar.d.ts`
+- `dist/react/SearchInput.js` `dist/react/SearchInput.d.ts`
+- `dist/react/Skeleton.js` `dist/react/Skeleton.d.ts`
+- `dist/react/EmptyState.js` `dist/react/EmptyState.d.ts`
+- `dist/react/Timeline.js` `dist/react/Timeline.d.ts`
+- `dist/react/StatCard.js` `dist/react/StatCard.d.ts`
 
 ## Demo
 

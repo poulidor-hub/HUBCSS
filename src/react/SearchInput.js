@@ -1,4 +1,5 @@
 import { createElement, useState, useEffect, useRef, useCallback } from 'react';
+import { Icon } from './Icon.js';
 
 export function SearchInput({
   value: controlledValue,
@@ -63,20 +64,11 @@ export function SearchInput({
   return createElement(
     'div',
     { className: `hub-search-input-wrapper ${className}`.trim() },
-    createElement(
-      'svg',
-      {
-        width: 16,
-        height: 16,
-        viewBox: '0 0 24 24',
-        fill: 'none',
-        stroke: 'currentColor',
-        strokeWidth: 2,
-        className: 'hub-search-input-icon',
-      },
-      createElement('circle', { cx: 11, cy: 11, r: 8 }),
-      createElement('path', { d: 'm21 21-4.3-4.3' }),
-    ),
+    createElement(Icon, {
+      name: 'search',
+      size: 16,
+      className: 'hub-icon hub-search-input-icon',
+    }),
     createElement('input', {
       ref: inputRef,
       type: 'text',

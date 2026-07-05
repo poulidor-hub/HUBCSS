@@ -457,6 +457,11 @@
     animation: hub-pulse 1.8s ease-in-out infinite;
   }
 
+  .hub-skeleton-text {
+    display: flex;
+    flex-direction: column;
+  }
+
   .hub-empty-state {
     display: flex;
     flex-direction: column;
@@ -596,6 +601,11 @@
     padding: 0;
   }
   .hub-badge--pill { border-radius: var(--radius-hub-full); }
+  .hub-badge--pill-lg {
+    border-radius: var(--radius-hub-full);
+    padding: var(--hub-space-1) var(--hub-space-3);
+    font-size: var(--hub-font-size-base);
+  }
 
   .hub-table--striped tbody tr:nth-child(even) {
     background: var(--hub-color-surface-muted);

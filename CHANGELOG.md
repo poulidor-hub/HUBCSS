@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.2] - 2026-07-05
+
+### Added
+- `.hub-skeleton-text` CSS class for `SkeletonText` container.
+- `.hub-badge--pill-lg` CSS class: larger pill variant with increased padding and font-size.
+- `./react/SkeletonText` subpath export in `package.json`.
+
+### Changed
+- `SearchInput` and `SearchBadgeBar` React components now use the Lucide sprite
+  (`<Icon>`) instead of inline SVG elements — lighter bundle, consistent rendering.
+
+### Fixed
+- `docs/HOW2USE.md` and `README.md` now list all 8 React components and their
+  `.d.ts` typings (previously only `Icon.js` was documented).
+- `docs/VERDACCIO.md`: removed reference to non-existent `.npmrc.example`.
+- `.github/workflows/ci.yml` now runs `npm run demo:build` as quality gate.
+
 ## [0.2.1] - 2026-06-07
 
 ### Added
