@@ -136,6 +136,8 @@ CDN domains.
 ## Documentation
 
 - `docs/HOW2USE.md` explains the Hub-served runtime model and app fallback seed.
+- `docs/CASCADE.md` explains the CSS cascade/layers contract (app resets, curated
+  utility set, safe `hub-*` extension patterns).
 - `docs/DEMO.md` covers the reference validation flow.
 - `docs/LOCAL_ASSETS.md` explains Hub runtime assets and local fallback seeds.
 - `docs/PERFORMANCE.md` documents the current bundle budgets.

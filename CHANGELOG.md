@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.3] - 2026-09-14
+
+### Added
+- `docs/CASCADE.md`: the cascade/layers styling contract — layer stack of the
+  compiled `global.css` (properties/theme/base/components/utilities), the
+  unlayered-beats-layered rule, the ban on universal resets in app CSS, the
+  exact curated utility set shipped in the bundle (and the notable absent
+  ones, e.g. `mb-2`/`mb-3`), safe `hub-*` extension patterns, and the real
+  world case study from the `exports` app (v0.1.2 crushed-tables bug).
+
+### Changed
+- `docs/HOW2USE.md` (Related Docs) and `README.md` (Documentation) now link
+  to `docs/CASCADE.md`.
+
 ## [0.2.2] - 2026-07-05
 
 ### Added

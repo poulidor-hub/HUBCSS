@@ -258,6 +258,9 @@ After integration, verify:
 
 ## Related Docs
 
+- `docs/CASCADE.md` for the layer/cascade contract between `global.css` and app
+  CSS — mandatory reading before styling an app (resets, utility set, hub-*
+  overrides).
 - `docs/LOCAL_ASSETS.md` for Hub runtime assets and local fallback seeds.
 - `docs/VERDACCIO.md` for development-only private registry checks.
 - `docs/DEMO.md` for the reference validation flow.
