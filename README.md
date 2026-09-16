@@ -1,5 +1,8 @@
 # HUBCSS
 
+![version](https://img.shields.io/badge/version-0.2.2-blue)
+![npm](https://img.shields.io/badge/npm-@poutchouli%2Fdesign-system-blue)
+
 HUBCSS is the design-system source used by the Hub and Hub-connected
 applications. It builds offline-friendly CSS, icons, and fonts into one
 versioned artifact that the Hub serves at runtime.
@@ -14,6 +17,24 @@ The package stays intentionally small:
 - No CDN dependency, no CSS-in-JS runtime, no external font request.
 - One canonical production distribution path: build HUBCSS, upload the packed
   artifact to the Hub, and let applications sync from the Hub manifest.
+
+## Place In The POULIDOR Park
+
+HUBCSS is one component of the POULIDOR park:
+
+```mermaid
+flowchart LR
+    HUBCSS["HUBCSS<br/>npm run pack"] -->|"dist.tar.gz<br/>Admin > Design System"| HUB["Hub (HUB_base)"]
+    HUB -->|"/api/design-system/manifest"| APP["Hub-connected apps"]
+```
+
+The Hub is the runtime distributor: an administrator uploads the packed artifact under
+**Admin > Design System**, and applications keep a local seed fallback, then sync the
+canonical bundle from the Hub manifest. Sibling repos:
+[HUB_base](https://github.com/POULIDOR-Audit-Developpement/HUB_base) (serves the
+runtime assets) and
+[HUBapp_TEMPLATE_base](https://github.com/POULIDOR-Audit-Developpement/HUBapp_TEMPLATE_base)
+(consumes the design system in generated apps).
 
 ## Status
 
