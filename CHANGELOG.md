@@ -14,6 +14,14 @@
 - `docs/HOW2USE.md` (Related Docs) and `README.md` (Documentation) now link
   to `docs/CASCADE.md`.
 
+## [0.2.4] - 2026-09-17
+
+### Changed
+- README: added version badge and a new "Place In The POULIDOR Park" section
+  (Mermaid diagram of the Hub-served runtime distribution model, links to sibling
+  repos). Version badge set to 0.2.4 (0.2.3 was already released with
+  `docs/CASCADE.md`). No runtime or build changes.
+
 ## [0.2.2] - 2026-07-05
 
 ### Added

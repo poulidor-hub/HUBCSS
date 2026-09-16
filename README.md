@@ -1,6 +1,6 @@
 # HUBCSS
 
-![version](https://img.shields.io/badge/version-0.2.2-blue)
+![version](https://img.shields.io/badge/version-0.2.4-blue)
 ![npm](https://img.shields.io/badge/npm-@poutchouli%2Fdesign-system-blue)
 
 HUBCSS is the design-system source used by the Hub and Hub-connected
