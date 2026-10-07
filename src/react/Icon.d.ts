@@ -8,4 +8,5 @@ export interface IconProps extends SVGProps<SVGSVGElement> {
 }
 
 export declare const Icon: import('react').MemoExoticComponent<(props: IconProps) => import('react').ReactElement>;
+export declare function setIconSpriteHref(href: string): void;
 export default Icon;

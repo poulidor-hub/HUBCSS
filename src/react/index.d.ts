@@ -1,4 +1,5 @@
 export { Icon } from './Icon.js';
+export { setIconSpriteHref } from './Icon.js';
 export { HighlightText } from './HighlightText.js';
 export { SearchBadgeBar } from './SearchBadgeBar.js';
 export { SearchInput } from './SearchInput.js';
