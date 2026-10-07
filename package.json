@@ -86,6 +86,10 @@
       "types": "./dist/react/PageHeader.d.ts",
       "default": "./dist/react/PageHeader.js"
     },
+    "./react/Modal": {
+      "types": "./dist/react/Modal.d.ts",
+      "default": "./dist/react/Modal.js"
+    },
     "./icons.manifest.json": "./src/icons/icons.manifest.json"
   },
   "scripts": {
