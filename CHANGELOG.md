@@ -1,3 +1,17 @@
+## [0.3.0] - 2026-10-08
+
+### Added
+- Structural layer: `PageHeader` (CSS `hub-page-header*` + React component — single `h1`, optional back/badge, dynamic version pill via `meta`, wrapping actions) and `Modal` (CSS `hub-modal*` + React component — portal, Escape, focus trap with latest-ref handler, body-only scrolling, module-level scroll-lock counter, sizes sm/md/lg, mobile bottom sheet < 640px, real scrim fade keyframe). Both zero-dependency, createElement-style, with `.d.ts` and package exports (`./react/PageHeader`, `./react/Modal`).
+- z-index tokens `--hub-z-sticky/overlay/modal/toast` (100/200/300/400).
+- `.hub-panel--padded` variant; `.hub-shell` upgraded to `100dvh` with a minifier-proof `@supports` `100vh` fallback.
+- `setIconSpriteHref()`: app-level override of the default Lucide sprite URL (template apps serve the sprite under `/design-system/current/`, the DS server at the root) — internal Icon consumers (StatCard, EmptyState, SearchInput, SearchBadgeBar) inherit the setting.
+- `react-dom` declared as a peerDependency; example app Vite config dedupes react/react-dom (fixes dual-React production demo bundle).
+- Demo sections for PageHeader (root/detail/long-actions variants) and Modal (sm/md/lg + scrollable body) in `examples/minimal-react`; verified desktop + mobile, light + dark.
+- Docs: "Structure de page" recipe in HOW2USE (canonical page layout + the 4 rules: single back, single toolbar, modal ≠ page, no card-in-card) + component class/props tables; PERFORMANCE.md notes (z tokens, scrim fade, modal body as the only new local scroll zone).
+- Spec & implementation plan: `docs/superpowers/specs/2026-10-07-hubcss-lot1-structure-design.md`, `docs/superpowers/plans/2026-10-07-hubcss-lot1-structure.md` (executed subagent-driven, 7 tasks + final review + end-to-end validation in a fresh template app).
+
+### Changed
+- `manifest.json` version resynced (was left at 0.2.1 while package was 0.2.4 — drift fix, now maintained at 0.3.0).
 # Changelog
 
 ## [0.2.3] - 2026-09-14
