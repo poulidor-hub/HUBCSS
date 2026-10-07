@@ -166,10 +166,15 @@
 
 @layer components {
   .hub-shell {
-    min-height: 100vh;
     min-height: 100dvh;
     background: var(--hub-color-page);
     color: var(--hub-color-text);
+  }
+
+  @supports not (height: 100dvh) {
+    .hub-shell {
+      min-height: 100vh;
+    }
   }
 
   .hub-container {
@@ -222,6 +227,10 @@
     cursor: pointer;
   }
 
+  .hub-page-header-back:hover {
+    background: var(--hub-color-surface-muted);
+  }
+
   .hub-page-header-heading {
     display: flex;
     flex-direction: column;
@@ -255,7 +264,7 @@
   .hub-version-pill {
     padding: 2px 10px;
     border: 1px solid var(--hub-color-border);
-    border-radius: 999px;
+    border-radius: var(--radius-hub-full);
     background: var(--hub-color-surface);
     font-size: var(--hub-font-size-xs);
     font-variant-numeric: tabular-nums;
@@ -284,7 +293,7 @@
     display: grid;
     place-items: center;
     padding: var(--hub-space-4);
-    transition: opacity 120ms var(--hub-easing-standard);
+    animation: hub-modal-fade-in 120ms var(--hub-easing-standard);
   }
 
   .hub-modal {
@@ -345,6 +354,7 @@
 
     .hub-modal {
       border-radius: var(--radius-hub) var(--radius-hub) 0 0;
+      max-width: 100%;
       max-height: 90dvh;
     }
   }
@@ -1528,6 +1538,11 @@
 @keyframes hub-scale-in {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes hub-modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .hub-animate-fade-in { animation: hub-fade-in var(--hub-transition-base) var(--hub-easing-standard); }
