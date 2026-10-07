@@ -82,6 +82,10 @@
       "types": "./dist/react/StatCard.d.ts",
       "default": "./dist/react/StatCard.js"
     },
+    "./react/PageHeader": {
+      "types": "./dist/react/PageHeader.d.ts",
+      "default": "./dist/react/PageHeader.js"
+    },
     "./icons.manifest.json": "./src/icons/icons.manifest.json"
   },
   "scripts": {

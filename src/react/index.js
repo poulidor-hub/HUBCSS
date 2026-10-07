@@ -6,3 +6,4 @@ export { Skeleton, SkeletonText } from './Skeleton.js';
 export { EmptyState } from './EmptyState.js';
 export { Timeline } from './Timeline.js';
 export { StatCard } from './StatCard.js';
+export { PageHeader } from './PageHeader.js';
