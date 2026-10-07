@@ -92,6 +92,12 @@
   --hub-transition-slow: 300ms;
   --hub-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --hub-easing-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  /* z-index échelle — voir docs/HOW2USE.md */
+  --hub-z-sticky: 100;
+  --hub-z-overlay: 200;
+  --hub-z-modal: 300;
+  --hub-z-toast: 400;
 }
 
 [data-theme="dark"] {
@@ -161,6 +167,7 @@
 @layer components {
   .hub-shell {
     min-height: 100vh;
+    min-height: 100dvh;
     background: var(--hub-color-page);
     color: var(--hub-color-text);
   }
@@ -181,6 +188,10 @@
     background: var(--hub-color-surface);
     border: 1px solid var(--hub-color-border);
     border-radius: var(--radius-hub);
+  }
+
+  .hub-panel--padded {
+    padding: var(--hub-space-4);
   }
 
   .hub-toolbar {
