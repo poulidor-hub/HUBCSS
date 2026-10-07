@@ -82,6 +82,14 @@
       "types": "./dist/react/StatCard.d.ts",
       "default": "./dist/react/StatCard.js"
     },
+    "./react/PageHeader": {
+      "types": "./dist/react/PageHeader.d.ts",
+      "default": "./dist/react/PageHeader.js"
+    },
+    "./react/Modal": {
+      "types": "./dist/react/Modal.d.ts",
+      "default": "./dist/react/Modal.js"
+    },
     "./icons.manifest.json": "./src/icons/icons.manifest.json"
   },
   "scripts": {
@@ -102,7 +110,8 @@
     "prepack": "npm run build"
   },
   "peerDependencies": {
-    "react": ">=18.0.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "dependencies": {
     "bootstrap-icons": "^1.13.1",

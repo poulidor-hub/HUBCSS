@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@poutchouli/design-system/source.css';
-import { Icon } from '@poutchouli/design-system/react';
+import { Icon, PageHeader, Modal } from '@poutchouli/design-system/react';
 
 const spriteHref = '/design-system/icons/lucide.svg';
 
@@ -50,6 +50,40 @@ const assetRows = [
   { name: 'Offline guard', mode: 'npm script', status: 'watched', icon: 'triangle-alert' },
 ];
 
+const equipmentFormFields = [
+  { label: "Nom de l'asset", type: 'text', placeholder: 'LT-4218' },
+  { label: 'Type', type: 'select', options: ['Portable', 'Tour', 'Écran', "Station d'accueil"] },
+  { label: 'Marque', type: 'text', placeholder: 'Lenovo' },
+  { label: 'Modèle', type: 'text', placeholder: 'ThinkPad T14 G5' },
+  { label: 'Numéro de série', type: 'text', placeholder: 'PF-3ZK9-218' },
+  { label: 'Site', type: 'select', options: ['Lyon-Villeurbanne', 'Paris', 'Nantes', 'Remote'] },
+  { label: 'Service', type: 'text', placeholder: 'Maintenance' },
+  { label: 'Utilisateur assigné', type: 'text', placeholder: 'camille.d' },
+  { label: "Date d'achat", type: 'date' },
+  { label: 'Garantie', type: 'select', options: ['1 an', '2 ans', '3 ans', '5 ans'] },
+  { label: 'Adresse MAC', type: 'text', placeholder: '00:1A:2B:3C:4D:5E' },
+  { label: 'Notes internes', type: 'text', placeholder: 'Sacoche fournie' },
+];
+
+const auditRows = [
+  ['09:42', 'camille.d', 'Connexion', 'Hub SSO'],
+  ['09:45', 'camille.d', 'Création', 'Fiche LT-4218'],
+  ['09:51', 'martin.l', 'Modification', 'Fiche LT-4218 — champ garantie'],
+  ['10:03', 'camille.d', 'Attribution', 'LT-4218 → martin.l'],
+  ['10:12', 'system', 'Synchronisation', 'Inventaire Hub (342 éléments)'],
+  ['10:27', 'sofia.k', 'Connexion', 'Hub SSO'],
+  ['10:31', 'sofia.k', 'Création', 'Fiche SCR-1102'],
+  ['10:44', 'martin.l', 'Export', 'inventaire-2026-10-07.csv'],
+  ['11:02', 'camille.d', 'Suppression', 'Fiche DOC-0087'],
+  ['11:15', 'system', 'Sauvegarde', 'Snapshot quotidien'],
+  ['11:28', 'sofia.k', 'Modification', 'Fiche SCR-1102 — site Paris'],
+  ['11:40', 'martin.l', 'Déconnexion', 'Hub SSO'],
+  ['13:05', 'camille.d', 'Téléversement', 'rapport-q3.pdf (2,4 Mo)'],
+  ['13:19', 'sofia.k', 'Connexion', 'Hub SSO'],
+  ['13:33', 'system', 'Mise à jour', 'Agents MDM — 12 postes'],
+  ['13:47', 'camille.d', 'Modification', 'Préférences de notification'],
+];
+
 function Badge({ children, tone = 'default' }) {
   const toneClass = tone === 'default' ? '' : ` hub-badge-${tone}`;
   return <span className={`hub-badge${toneClass}`}>{children}</span>;
@@ -73,6 +107,9 @@ function App() {
   const [strictMode, setStrictMode] = useState(true);
   const [spriteStatus, setSpriteStatus] = useState('checking');
   const [spriteCheckId, setSpriteCheckId] = useState(0);
+  const [modalSmOpen, setModalSmOpen] = useState(false);
+  const [modalMdOpen, setModalMdOpen] = useState(false);
+  const [modalLgOpen, setModalLgOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -242,6 +279,145 @@ function App() {
               </table>
             </div>
           </div>
+        </section>
+
+        <section className="hub-surface p-5">
+          <SectionHeader icon="menu" eyebrow="Structure" title="PageHeader" />
+          <div className="space-y-8">
+            <div>
+              <p className="hub-label">Racine — sans retour, version + meta, deux actions</p>
+              <div className="mt-2">
+                <PageHeader
+                  title="Inventaire"
+                  version="2.28.2"
+                  meta="342 éléments · Dernière synchronisation il y a 2 h"
+                  actions={
+                    <>
+                      <button className="hub-button" type="button" onClick={() => window.alert('Démo : nouvel élément')}><Icon name="plus" spriteHref={spriteHref} />Nouvel élément</button>
+                      <button className="hub-button hub-button-secondary" type="button" onClick={() => window.alert('Démo : export CSV')}><Icon name="download" spriteHref={spriteHref} />Exporter</button>
+                    </>
+                  }
+                />
+              </div>
+            </div>
+            <div>
+              <p className="hub-label">Détail — retour, badge, version, meta long</p>
+              <div className="mt-2">
+                <PageHeader
+                  title="Poste de travail LT-4218"
+                  back={{ onClick: () => window.alert('Démo : retour à la liste') }}
+                  badge={<Badge tone="success">Actif</Badge>}
+                  version="2.28.2"
+                  meta="Modifié le 07/10/2026 à 14:32 par Camille D. · Révision 12 · Site Lyon-Villeurbanne · Service Maintenance · Garantie 3 ans"
+                />
+              </div>
+            </div>
+            <div>
+              <p className="hub-label">Actions longues — cinq boutons, wrap attendu sur mobile</p>
+              <div className="mt-2">
+                <PageHeader
+                  title="Périphérique MDM-4821"
+                  actions={
+                    <>
+                      <button className="hub-button" type="button" onClick={() => window.alert('Démo : diagnostique')}><Icon name="search" spriteHref={spriteHref} />Diagnostiquer</button>
+                      <button className="hub-button hub-button-secondary" type="button" onClick={() => window.alert('Démo : redémarrage')}><Icon name="refresh-cw" spriteHref={spriteHref} />Redémarrer</button>
+                      <button className="hub-button hub-button-secondary" type="button" onClick={() => window.alert('Démo : journal')}><Icon name="copy" spriteHref={spriteHref} />Voir le journal</button>
+                      <button className="hub-button hub-button-secondary" type="button" onClick={() => window.alert('Démo : verrouillage')}><Icon name="eye" spriteHref={spriteHref} />Verrouiller</button>
+                      <button className="hub-button hub-button-secondary" type="button" onClick={() => window.alert('Démo : mise à jour')}><Icon name="upload" spriteHref={spriteHref} />Mettre à jour</button>
+                    </>
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="hub-surface p-5">
+          <SectionHeader icon="bell" eyebrow="Structure" title="Modal" />
+          <div className="flex flex-wrap gap-2">
+            <button className="hub-button" type="button" onClick={() => setModalSmOpen(true)}>Confirmation (sm)</button>
+            <button className="hub-button" type="button" onClick={() => setModalMdOpen(true)}>Formulaire 12 champs (md)</button>
+            <button className="hub-button" type="button" onClick={() => setModalLgOpen(true)}>Journal dense (lg)</button>
+          </div>
+          <p className="mt-3 text-sm text-muted">Escape, clic sur le fond et bouton Fermer ferment ; le scroll de page est restauré à la fermeture.</p>
+
+          <Modal
+            open={modalSmOpen}
+            onClose={() => setModalSmOpen(false)}
+            title="Supprimer le fichier ?"
+            size="sm"
+            footer={
+              <>
+                <button className="hub-button hub-button-secondary" type="button" onClick={() => setModalSmOpen(false)}>Annuler</button>
+                <button className="hub-button" type="button" onClick={() => { setModalSmOpen(false); window.alert('Démo : fichier supprimé'); }}>Supprimer</button>
+              </>
+            }
+          >
+            <div className="hub-alert hub-alert-danger"><Icon name="triangle-alert" spriteHref={spriteHref} /><span>Cette action est définitive : « rapport-q3.pdf » (2,4 Mo) sera supprimé pour tous les membres.</span></div>
+          </Modal>
+
+          <Modal
+            open={modalMdOpen}
+            onClose={() => setModalMdOpen(false)}
+            title="Déclarer un nouvel équipement"
+            size="md"
+            footer={
+              <>
+                <button className="hub-button hub-button-secondary" type="button" onClick={() => setModalMdOpen(false)}>Annuler</button>
+                <button className="hub-button" type="button" onClick={() => { setModalMdOpen(false); window.alert('Démo : équipement enregistré'); }}><Icon name="save" spriteHref={spriteHref} />Enregistrer</button>
+              </>
+            }
+          >
+            <div className="grid gap-4">
+              {equipmentFormFields.map((field) => (
+                <label className="hub-field" key={field.label}>
+                  <span className="hub-label">{field.label}</span>
+                  {field.type === 'select' ? (
+                    <select className="hub-select">
+                      {field.options.map((option) => (
+                        <option key={option}>{option}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input className="hub-input" type={field.type} placeholder={field.placeholder} />
+                  )}
+                </label>
+              ))}
+            </div>
+          </Modal>
+
+          <Modal
+            open={modalLgOpen}
+            onClose={() => setModalLgOpen(false)}
+            title="Journal d'audit — aujourd'hui"
+            size="lg"
+            footer={
+              <button className="hub-button hub-button-secondary" type="button" onClick={() => setModalLgOpen(false)}>Fermer</button>
+            }
+          >
+            <div className="overflow-x-auto">
+              <table className="hub-table">
+                <thead>
+                  <tr>
+                    <th>Heure</th>
+                    <th>Utilisateur</th>
+                    <th>Action</th>
+                    <th>Cible</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {auditRows.map(([time, user, action, target]) => (
+                    <tr key={time + action + target}>
+                      <td className="py-2"><code className="text-xs">{time}</code></td>
+                      <td className="py-2">{user}</td>
+                      <td className="py-2">{action}</td>
+                      <td className="py-2 text-muted">{target}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Modal>
         </section>
 
         <section className="hub-surface p-5">

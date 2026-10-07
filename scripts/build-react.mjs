@@ -15,6 +15,8 @@ const components = [
   'EmptyState',
   'Timeline',
   'StatCard',
+  'PageHeader',
+  'Modal',
 ];
 
 await mkdir(outputDir, { recursive: true });

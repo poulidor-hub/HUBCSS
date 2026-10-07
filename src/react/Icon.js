@@ -1,6 +1,16 @@
 import { createElement, memo } from 'react';
 
-const DEFAULT_SPRITE_HREF = '/design-system/icons/lucide.svg';
+// Défaut modifiable globalement : les apps servent le sprite sous
+// /design-system/current/icons/ (layout de seed template) alors que le
+// serveur DS le sert à la racine. Chaque consommateur appelle
+// setIconSpriteHref() une fois au boot ; les composants qui instancient
+// Icon en interne (StatCard, EmptyState, SearchInput, SearchBadgeBar)
+// héritent du réglage.
+let defaultSpriteHref = '/design-system/icons/lucide.svg';
+
+export function setIconSpriteHref(href) {
+  defaultSpriteHref = href;
+}
 
 function normalizeIconName(name) {
   return name.startsWith('icon-') ? name : `icon-${name}`;
@@ -10,7 +20,7 @@ export const Icon = memo(function Icon({
   name,
   title,
   size = 20,
-  spriteHref = DEFAULT_SPRITE_HREF,
+  spriteHref = defaultSpriteHref,
   className = 'hub-icon',
   ...props
 }) {
