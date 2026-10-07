@@ -6,6 +6,8 @@ export { Skeleton, SkeletonText } from './Skeleton.js';
 export { EmptyState } from './EmptyState.js';
 export { Timeline } from './Timeline.js';
 export { StatCard } from './StatCard.js';
+export { PageHeader } from './PageHeader.js';
+export { Modal } from './Modal.js';
 
 export type { IconProps } from './Icon.js';
 export type { HighlightTextProps } from './HighlightText.js';
@@ -15,3 +17,5 @@ export type { SkeletonProps, SkeletonTextProps } from './Skeleton.js';
 export type { EmptyStateProps } from './EmptyState.js';
 export type { TimelineProps } from './Timeline.js';
 export type { StatCardProps } from './StatCard.js';
+export type { PageHeaderProps } from './PageHeader.js';
+export type { ModalProps } from './Modal.js';
