@@ -32,7 +32,7 @@ The build outputs exposed to the Hub and to local fallback seeds are:
 - `bootstrap-icons/bootstrap-icons.css` and its `fonts/` files for legacy
   Bootstrap Icons classes used by Hub application icons.
 - `icons/lucide.svg` for the generated Lucide sprite.
-- `react/Icon.js` et `react/Icon.d.ts`, `react/HighlightText.js`, `react/SearchBadgeBar.js`, `react/SearchInput.js`, `react/Skeleton.js`, `react/EmptyState.js`, `react/Timeline.js`, `react/StatCard.js` et leurs typages `.d.ts` pour la bibliothèque optionnelle de composants React.
+- `react/Icon.js` et `react/Icon.d.ts`, `react/HighlightText.js`, `react/SearchBadgeBar.js`, `react/SearchInput.js`, `react/Skeleton.js`, `react/EmptyState.js`, `react/Timeline.js`, `react/StatCard.js`, `react/PageHeader.js`, `react/Modal.js` et leurs typages `.d.ts` pour la bibliothèque optionnelle de composants React.
 - `manifest.json` with `{version, generated_at, files:[{path,size,sha256}]}`
   in the packed artifact; the Hub runtime manifest adds served URLs.
 
@@ -169,6 +169,194 @@ or serve `bootstrap-icons/bootstrap-icons.css` with its sibling `fonts/`
 directory. Hub production deployments normally receive these files through the
 runtime manifest.
 
+## Structure de page
+
+Au-dessus des atomes (`hub-button`, `hub-input`, `hub-panel`…), HUBCSS fournit un
+étage structurel : `PageHeader`, `Modal`, la variante `hub-panel--padded` et une
+règle de scroll. Une page d'application standard se construit alors sans CSS ad hoc,
+en suivant la recette ci-dessous.
+
+### Recette canonique
+
+```txt
+Header global (app) > hub-container > PageHeader > toolbar unique > hub-panel
+```
+
+```jsx
+<div className="hub-shell">
+  {/* Header global de l'application — hors périmètre HUBCSS */}
+  <main className="hub-container">
+    <PageHeader
+      title="Employés"
+      version="2.28.2"
+      meta="128 employés · 3 sites"
+      actions={
+        <>
+          <button className="hub-button" type="button">Nouvel employé</button>
+          <button className="hub-button hub-button-secondary" type="button">Exporter</button>
+        </>
+      }
+    />
+    <section className="hub-panel hub-panel--padded">
+      <div className="hub-toolbar">{/* filtres, tri, recherche — un seul */}</div>
+      {/* contenu : table, liste, formulaire… */}
+    </section>
+  </main>
+</div>
+```
+
+Le **document** est la source de scroll de la page : `.hub-shell` occupe `100dvh` et
+la page scrolle normalement. Les zones de scroll local autorisées sont exclusivement
+le body de `.hub-modal` (géré par le composant, voir plus bas) et le scroll
+horizontal des tables. Tout `max-height + overflow-y` improvisé dans une app est une
+violation de la règle.
+
+### Les 4 règles
+
+1. **Un seul retour par page.** Le bouton retour est porté par `PageHeader`
+   (`back`). Le Header global n'en rend pas ; une page racine n'en rend pas non plus.
+2. **Une seule toolbar par page.** Filtres, tri et recherche vivent dans un unique
+   `.hub-toolbar`, premier enfant du panel de contenu.
+3. **Modal ≠ page.** Si le contenu a besoin d'onglets ou de navigation, c'est une
+   route, pas une modal. La modal reste une action courte (confirmation, formulaire).
+4. **Pas de carte dans carte.** Le contenu se pose dans `hub-panel hub-panel--padded`
+   ; ne pas empiler des `.hub-panel` ou `.hub-surface` décoratifs à l'intérieur.
+
+### PageHeader
+
+```jsx
+import { PageHeader } from '@poutchouli/design-system/react';
+
+<PageHeader
+  title="Poste de travail LT-4218"
+  back={{ onClick: () => navigate('/inventaire'), label: "Retour à l'inventaire" }}
+  badge={<span className="hub-badge hub-badge-success">Actif</span>}
+  version="2.28.2"
+  meta="Modifié le 07/10/2026 par Camille D. · Révision 12"
+  actions={
+    <>
+      <button className="hub-button" type="button">Redémarrer</button>
+      <button className="hub-button hub-button-secondary" type="button">Exporter</button>
+    </>
+  }
+/>
+```
+
+Rendu inline (pas de portal), composant pur sans état interne ; `version` et `meta`
+coexistent sur la même ligne meta, version en premier.
+
+| Prop | Type | Requis | Rôle |
+| --- | --- | :---: | --- |
+| `title` | `ReactNode` | oui | Titre de page, rendu dans le `<h1>` — unique par page |
+| `back` | `{ onClick, label? }` | non | Bouton ← ; `label` alimente l'`aria-label` (défaut « Retour ») |
+| `badge` | `ReactNode` | non | Élément à côté du titre, typiquement `hub-badge` |
+| `version` | `string` | non | Pastille `vX.Y.Z` (`tabular-nums`) ; alimentée par l'app, jamais calculée par la DS |
+| `meta` | `ReactNode` | non | Ligne secondaire sous le titre (muted, petite taille) |
+| `actions` | `ReactNode` | non | Boutons d'action, alignés à droite ; passent sous le titre sous 640px |
+
+Classes CSS correspondantes :
+
+| Classe | Rôle |
+| --- | --- |
+| `.hub-page-header` | Conteneur flex wrap (`align-items: flex-start`, gap `--hub-space-3`) |
+| `.hub-page-header-back` | Bouton retour 40×40 (même style que `hub-icon-button`) |
+| `.hub-page-header-heading` | Bloc titre + meta (flex column, `min-width: 0`) |
+| `.hub-page-header-titlerow` | Ligne titre + badge (flex `align-items: center`) |
+| `.hub-page-header-title` | Porté par le `<h1>` (`--hub-font-size-xl`, semibold) |
+| `.hub-page-header-badge` | Hook de placement du badge, sans style propre |
+| `.hub-page-header-meta` | Ligne meta (muted, `--hub-font-size-sm`, flex wrap) |
+| `.hub-version-pill` | Pastille `vX.Y.Z` (bordure, radius full, `tabular-nums`) |
+| `.hub-page-header-actions` | Actions (`margin-left: auto`, wrap ; sous le titre sous 640px) |
+
+### Modal
+
+Confirmation courte (`sm`) :
+
+```jsx
+import { Modal } from '@poutchouli/design-system/react';
+
+<Modal
+  open={confirmOpen}
+  onClose={() => setConfirmOpen(false)}
+  title="Supprimer le fichier ?"
+  size="sm"
+  footer={
+    <>
+      <button className="hub-button hub-button-secondary" type="button" onClick={() => setConfirmOpen(false)}>Annuler</button>
+      <button className="hub-button" type="button" onClick={confirmerSuppression}>Supprimer</button>
+    </>
+  }
+>
+  <div className="hub-alert hub-alert-danger">Cette action est définitive.</div>
+</Modal>
+```
+
+Formulaire (`md`, taille par défaut) :
+
+```jsx
+<Modal
+  open={formOpen}
+  onClose={() => setFormOpen(false)}
+  title="Déclarer un nouvel équipement"
+  footer={
+    <>
+      <button className="hub-button hub-button-secondary" type="button" onClick={() => setFormOpen(false)}>Annuler</button>
+      <button className="hub-button" type="button">Enregistrer</button>
+    </>
+  }
+>
+  <label className="hub-field">
+    <span className="hub-label">Nom</span>
+    <input className="hub-input" />
+  </label>
+  {/* …autres champs : le body scrolle seul, header et footer restent fixes */}
+</Modal>
+```
+
+Le composant gère lui-même : rendu en portal vers `document.body` (`null` si
+`open` est faux), fermeture par Escape, ✕ et clic sur le fond (désactivable via
+`closeOnBackdrop`), focus trap avec focus initial et restauration du focus sur
+l'élément déclencheur, et scroll-lock du body (compatible modals empilées).
+Sous 640px, la modal se pose en panneau bas pleine largeur.
+
+| Prop | Type | Requis | Défaut | Rôle |
+| --- | --- | :---: | --- | --- |
+| `open` | `boolean` | oui | — | Contrôle d'ouverture |
+| `onClose` | `() => void` | oui | — | Appelé par Escape, ✕ et clic sur le fond |
+| `title` | `ReactNode` | oui | — | Titre de la dialog, lié par `aria-labelledby` |
+| `size` | `'sm' \| 'md' \| 'lg'` | non | `'md'` | Largeur maximale : 400 / 560 / 720 px |
+| `children` | `ReactNode` | oui | — | Contenu du body, seule zone scrollable |
+| `footer` | `ReactNode` | non | — | Zone d'actions fixe sous le body |
+| `closeOnBackdrop` | `boolean` | non | `true` | Fermeture au clic sur le fond |
+
+Classes CSS correspondantes :
+
+| Classe | Rôle |
+| --- | --- |
+| `.hub-modal-backdrop` | Scrim `fixed` plein écran (`--hub-z-overlay`, fade 120ms) |
+| `.hub-modal` | Dialog flex column (`--hub-z-modal`, `max-height: 85dvh`) |
+| `.hub-modal--sm` / `.hub-modal--lg` | `max-width` 400px / 720px (le `md` implicite fait 560px) |
+| `.hub-modal-header` | En-tête fixe : titre + bouton ✕ |
+| `.hub-modal-title` | Titre de la dialog (`<h2>`, semibold) |
+| `.hub-modal-body` | Body — **seule zone scrollable** de la modal |
+| `.hub-modal-footer` | Pied fixe : actions alignées à droite, fond `--hub-color-surface-muted` |
+
+### Échelle z-index
+
+Ne jamais coder de z-index en dur dans une app : utiliser les tokens ci-dessous, en
+respectant l'ordre des couches.
+
+| Token | Valeur | Usage |
+| --- | ---: | --- |
+| `--hub-z-sticky` | 100 | Éléments sticky de l'app (Header global) |
+| `--hub-z-overlay` | 200 | Scrim de la modal |
+| `--hub-z-modal` | 300 | Dialog, au-dessus du scrim |
+| `--hub-z-toast` | 400 | Réserve pour les toasts/messages — ne pas consommer avant l'existence du composant |
+
+L'échelle est theme-agnostique : aucune redéfinition sous `[data-theme="dark"]`. Les
+z-index internes des composants DS existants (Timeline : 1 à 10) restent sous cette
+échelle ; leur tokenisation est prévue dans un lot ultérieur.
+
 ## Runtime Asset Requirement
 
 For Hub applications, CSS, fonts, and the icon sprite are runtime assets served
@@ -228,6 +416,8 @@ After `npm run build`, HUBCSS produces:
 - `dist/react/EmptyState.js` `dist/react/EmptyState.d.ts`
 - `dist/react/Timeline.js` `dist/react/Timeline.d.ts`
 - `dist/react/StatCard.js` `dist/react/StatCard.d.ts`
+- `dist/react/PageHeader.js` `dist/react/PageHeader.d.ts`
+- `dist/react/Modal.js` `dist/react/Modal.d.ts`
 
 These are the artifacts your applications consume either directly or through
 package exports.
