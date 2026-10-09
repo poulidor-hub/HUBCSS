@@ -22,3 +22,6 @@ Thumbs.db
 
 # Packaged artifacts
 *.tar.gz
+
+# Agent worktrees (isolation git)
+.worktrees/
