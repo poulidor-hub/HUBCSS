@@ -1,3 +1,12 @@
+## [0.3.1] - 10 octobre 2026
+
+### Changed
+- ROADMAP: recorded the 0.3.0 structural-layer direction (Done section) and
+  tightened the expansion rule per the park simplicity directive — the DS
+  ships only what removes work for the AI (one structure, one set of classes,
+  four rules); expansion is a cost before it is a feature.
+- package-lock.json: peerDependencies resynced to match the package manifest
+  (`react-dom` declared since 0.3.0). No runtime or build changes.
 ## [0.3.0] - 2026-10-08
 
 ### Added
