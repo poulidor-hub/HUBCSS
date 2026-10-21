@@ -1,7 +1,14 @@
 # Hub Runtime Asset Serving
 
-The production delivery model is Hub-served runtime assets with a local fallback
-seed in each application.
+**Canonical mode for parc applications: vendor.** The design-system assets are
+committed inside each application (`frontend/public/design-system/current/`)
+and updated deliberately through the app's `make update-ds` (sha256-verified
+copy from the stack HUBCSS checkout, manifest tracked in git). See
+`docs/HOW2USE.md` § Canonical Production Model.
+
+The Hub-served delivery model below is a documented **future extension, not
+implemented Hub-side yet** (no Hub endpoint exists today). It would add a
+versioned Hub source on top of the committed vendor seed.
 
 ## Canonical Runtime Mode
 
