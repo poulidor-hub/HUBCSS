@@ -1,3 +1,14 @@
+## [0.3.2] - 21 octobre 2026
+
+### Changed
+
+- **Contrat** : `docs/HOW2USE.md` — le mode **vendor** (assets committés dans
+  l'app, `make update-ds`) est le mode canonique des apps du parc ; le modèle
+  Hub-served (upload admin, manifest, swap runtime) est requalifié en extension
+  future non implémentée côté Hub.
+- **Fix pack** : `manifest.json` régénéré via `npm run pack` — les sha256
+  committés étaient périmés par rapport au build déterministe (v0.3.1).
+
 ## [0.3.1] - 10 octobre 2026
 
 ### Changed
