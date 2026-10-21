@@ -5,19 +5,29 @@ applications at runtime.
 
 ## Canonical Production Model
 
-The production source of truth is the Hub runtime manifest:
+**Mode vendor (canonique aujourd'hui)** : les assets runtime HUBCSS sont
+**committés dans chaque application** (`frontend/public/design-system/current/`,
+embarqués dans l'image nginx au build). La montée de version est un commit
+reviewable, produit par le script vendor de l'app (`make update-ds`) qui copie
+les assets depuis le checkout HUBCSS du stack en vérifiant les sha256 du
+`manifest.json`. Ce mode est la référence du parc POULIDOR : aucune dépendance
+réseau au runtime, offline-first, audit par `git diff`.
 
-1. HUBCSS produces one versioned `dist.tar.gz` artifact.
-2. An administrator uploads that artifact in the Hub, under **Admin > Design System**.
-3. The Hub validates the manifest and sha256 checksums, extracts the files, and
-  serves them from versioned `/design-system/<version>/...` URLs.
-4. Applications read `${HUB}/api/design-system/manifest`, download the listed
-  assets, verify sha256 checksums, and atomically swap their local
-  `/design-system/current/` bundle.
+**Modèle Hub-served (extension future, non implémentée)** : le flux décrit
+ci-dessous (upload admin, manifest servi par le Hub, swap runtime par les
+apps) n'existe **pas** côté Hub à ce jour (aucun endpoint, aucune page
+admin). Il reste le modèle cible documenté ici pour le jour où il sera
+construit :
 
-The application template ships a local HUBCSS seed only as a fallback for first
-boot, offline development, and Hub outages. Once the Hub has an active design
-system version, the Hub-served runtime bundle is canonical.
+1. HUBCSS produit un `dist.tar.gz` versionné.
+2. Un administrateur l'importe dans le Hub, sous **Admin > Design System**.
+3. Le Hub valide le manifest et les sha256, extrait les fichiers et les sert
+   depuis des URLs versionnées `/design-system/<version>/...`.
+4. Les applications lisent `${HUB}/api/design-system/manifest`, vérifient les
+   sha256 et swappent atomiquement leur bundle `/design-system/current/`.
+
+Le seed du template n'est pas un simple « fallback » : en mode vendor, **il
+est l'asset de production**, tenu à jour par `make update-ds`.
 
 ## What An App Actually Uses
 
@@ -360,17 +370,30 @@ z-index internes des composants DS existants (Timeline : 1 à 10) restent sous c
 ## Runtime Asset Requirement
 
 For Hub applications, CSS, fonts, and the icon sprite are runtime assets served
-through the app's `/design-system/current/` path after sync from the Hub.
+through the app's `/design-system/current/` path. In vendor mode (the parc
+canonical mode), these files are **committed inside the app** and updated
+deliberately:
+
+```bash
+make update-ds   # copie les assets depuis HUBCSS du stack, sha256 vérifiés
+git diff         # la version est visible dans current/manifest.json
+git commit       # la montée de version est un commit reviewable
+```
 
 Minimum expectation for one application:
 
 ```txt
-public/design-system/icons/lucide.svg
-public/design-system/bootstrap-icons/bootstrap-icons.css
-public/design-system/bootstrap-icons/fonts/bootstrap-icons.woff2
+public/design-system/current/global.css
+public/design-system/current/fonts.css
+public/design-system/current/bootstrap-icons/bootstrap-icons.css
+public/design-system/current/bootstrap-icons/fonts/bootstrap-icons.woff2
+public/design-system/current/icons/lucide.svg
+public/design-system/current/manifest.json
 ```
 
-The template handles this automatically:
+The template ships this bundle committed; `make update-ds` keeps it aligned
+with the HUBCSS checkout of the stack. The Hub-side seeding/polling described
+below remains a future extension:
 
 1. The backend seeds `/var/lib/app/design-system/current/` from the embedded
   bundle if the volume is empty.
