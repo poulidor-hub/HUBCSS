@@ -1,3 +1,15 @@
+## [0.3.3] - 21 octobre 2026
+
+### Fixed
+
+- **Sécurité (dev-deps)** : `source-map-js` 1.2.1 → 1.2.2 (GHSA-68fv-2mgg-jv7q,
+  DoS event-loop) — `npm audit` : **0 vulnérabilités**. Les autres alertes
+  Dependabot (vite, nanoid, postcss) étaient déjà couvertes par le lock v0.3.1.
+  Dépendances de build uniquement : aucun asset runtime modifié (shas dist
+  identiques, manifest inchangé hors version).
+- **Docs** : `docs/LOCAL_ASSETS.md` aligné sur le mode vendor canonique
+  (HOW2USE v0.3.2) — le modèle Hub-served requalifié en extension future.
+
 ## [0.3.2] - 21 octobre 2026
 
 ### Changed
