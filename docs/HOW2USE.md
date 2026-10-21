@@ -35,7 +35,7 @@ Applications do not read the HUBCSS repository directly at runtime. They either
 use the local seed installed by the template or the versioned bundle served by
 the Hub.
 
-The build outputs exposed to the Hub and to local fallback seeds are:
+The build outputs exposed to the Hub and consumed by vendor seeds are:
 
 - `global.css` for HUBCSS components and tokens.
 - `fonts.css` for bundled local fonts.
@@ -447,15 +447,15 @@ package exports.
 
 ## Recommended Adoption Pattern
 
-For Hub-connected teams:
+For Hub-connected teams (future extension — not implemented Hub-side yet):
 
 1. Build and pack HUBCSS.
 2. Upload `dist.tar.gz` to the Hub.
-3. Keep the template seed fallback for first boot/offline safety.
-4. Let applications sync runtime assets from the Hub manifest.
+3. Keep the committed vendor seed as the runtime asset (`make update-ds`).
+4. Once built, applications would sync runtime assets from the Hub manifest.
 
-This keeps all applications on one centrally audited design-system version while
-preserving local startup resilience.
+Until then, vendor mode keeps all applications aligned through reviewed
+commits while preserving offline startup.
 
 ## Validation Checklist
 
