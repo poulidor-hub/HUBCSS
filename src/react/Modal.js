@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 import { createElement, useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 

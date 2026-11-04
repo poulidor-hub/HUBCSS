@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 import { createElement, memo } from 'react';
 
 // Défaut modifiable globalement : les apps servent le sprite sous

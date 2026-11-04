@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 /**
  * Empaquette le dossier dist/ en dist.tar.gz autosuffisant + manifest.json
  * sidecar prêts à l'upload dans l'admin HUB ("Design System").
