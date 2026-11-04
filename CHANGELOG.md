@@ -1,3 +1,10 @@
+## [0.3.4] - 4 novembre 2026
+
+### ⚡ Licence open source MIT + en-têtes SPDX
+
+- `LICENSE` (**MIT**) au nom de POULIDOR Audit & Développement - Valérian Poulidor — remplace `LICENSE.md` (MIT au nom « Poutchouli ») ; le design system devient clairement réutilisable dans des projets propriétaires
+- En-têtes SPDX (`MIT` + copyright POULIDOR Audit & Développement) sur les **38 fichiers** (composants TS/TSX, CSS, exemples, 11 `.d.ts` manuscrits)
+
 ## [0.3.3] - 21 octobre 2026
 
 ### Fixed
