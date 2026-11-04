@@ -5,29 +5,29 @@ applications at runtime.
 
 ## Canonical Production Model
 
-**Mode vendor (canonique aujourd'hui)** : les assets runtime HUBCSS sont
-**committés dans chaque application** (`frontend/public/design-system/current/`,
-embarqués dans l'image nginx au build). La montée de version est un commit
-reviewable, produit par le script vendor de l'app (`make update-ds`) qui copie
-les assets depuis le checkout HUBCSS du stack en vérifiant les sha256 du
-`manifest.json`. Ce mode est la référence du parc POULIDOR : aucune dépendance
-réseau au runtime, offline-first, audit par `git diff`.
+**Vendor mode (canonical today)**: the HUBCSS runtime assets are
+**committed inside each application** (`frontend/public/design-system/current/`,
+embedded in the nginx image at build time). A version bump is a reviewable
+commit, produced by the app's vendor script (`make update-ds`) which copies
+the assets from the stack's HUBCSS checkout while verifying the `manifest.json`
+sha256 checksums. This mode is the POULIDOR parc reference: no network
+dependency at runtime, offline-first, auditable through `git diff`.
 
-**Modèle Hub-served (extension future, non implémentée)** : le flux décrit
-ci-dessous (upload admin, manifest servi par le Hub, swap runtime par les
-apps) n'existe **pas** côté Hub à ce jour (aucun endpoint, aucune page
-admin). Il reste le modèle cible documenté ici pour le jour où il sera
-construit :
+**Hub-served model (future extension, not implemented)**: the flow described
+below (admin upload, manifest served by the Hub, runtime swap by the
+apps) does **not** exist on the Hub side yet (no endpoint, no admin
+page). It remains the target model documented here for the day it gets
+built:
 
-1. HUBCSS produit un `dist.tar.gz` versionné.
-2. Un administrateur l'importe dans le Hub, sous **Admin > Design System**.
-3. Le Hub valide le manifest et les sha256, extrait les fichiers et les sert
-   depuis des URLs versionnées `/design-system/<version>/...`.
-4. Les applications lisent `${HUB}/api/design-system/manifest`, vérifient les
-   sha256 et swappent atomiquement leur bundle `/design-system/current/`.
+1. HUBCSS produces a versioned `dist.tar.gz`.
+2. An administrator imports it into the Hub, under **Admin > Design System**.
+3. The Hub validates the manifest and sha256 checksums, extracts the files,
+   and serves them from versioned `/design-system/<version>/...` URLs.
+4. Applications read `${HUB}/api/design-system/manifest`, verify the
+   sha256 checksums, and atomically swap their `/design-system/current/` bundle.
 
-Le seed du template n'est pas un simple « fallback » : en mode vendor, **il
-est l'asset de production**, tenu à jour par `make update-ds`.
+The template seed is not a mere "fallback": in vendor mode, **it is the
+production asset**, kept up to date by `make update-ds`.
 
 ## What An App Actually Uses
 
@@ -42,7 +42,7 @@ The build outputs exposed to the Hub and consumed by vendor seeds are:
 - `bootstrap-icons/bootstrap-icons.css` and its `fonts/` files for legacy
   Bootstrap Icons classes used by Hub application icons.
 - `icons/lucide.svg` for the generated Lucide sprite.
-- `react/Icon.js` et `react/Icon.d.ts`, `react/HighlightText.js`, `react/SearchBadgeBar.js`, `react/SearchInput.js`, `react/Skeleton.js`, `react/EmptyState.js`, `react/Timeline.js`, `react/StatCard.js`, `react/PageHeader.js`, `react/Modal.js` et leurs typages `.d.ts` pour la bibliothèque optionnelle de composants React.
+- `react/Icon.js` and `react/Icon.d.ts`, `react/HighlightText.js`, `react/SearchBadgeBar.js`, `react/SearchInput.js`, `react/Skeleton.js`, `react/EmptyState.js`, `react/Timeline.js`, `react/StatCard.js`, `react/PageHeader.js`, `react/Modal.js` and their `.d.ts` type definitions for the optional React component library.
 - `manifest.json` with `{version, generated_at, files:[{path,size,sha256}]}`
   in the packed artifact; the Hub runtime manifest adds served URLs.
 
@@ -69,7 +69,7 @@ and temporary development loops:
 - `@poutchouli/design-system/source.css` for Tailwind CSS v4 experiments.
 - `@poutchouli/design-system/bootstrap-icons.css` for legacy Bootstrap Icons
   class compatibility in development-only package flows.
-- `@poutchouli/design-system/react` pour le barrel (tous les composants React).
+- `@poutchouli/design-system/react` for the barrel (all React components).
 - `@poutchouli/design-system/icons.svg` for package-based sprite access.
 
 Supported development retrieval methods are tarball, private registry, and
@@ -179,58 +179,57 @@ or serve `bootstrap-icons/bootstrap-icons.css` with its sibling `fonts/`
 directory. Hub production deployments normally receive these files through the
 runtime manifest.
 
-## Structure de page
+## Page Structure
 
-Au-dessus des atomes (`hub-button`, `hub-input`, `hub-panel`…), HUBCSS fournit un
-étage structurel : `PageHeader`, `Modal`, la variante `hub-panel--padded` et une
-règle de scroll. Une page d'application standard se construit alors sans CSS ad hoc,
-en suivant la recette ci-dessous.
+On top of the atoms (`hub-button`, `hub-input`, `hub-panel`…), HUBCSS provides a
+structural layer: `PageHeader`, `Modal`, the `hub-panel--padded` variant, and a
+scroll rule. A standard application page is then built without ad hoc CSS by
+following the recipe below.
 
-### Recette canonique
+### Canonical Recipe
 
 ```txt
-Header global (app) > hub-container > PageHeader > toolbar unique > hub-panel
+Global app header > hub-container > PageHeader > single toolbar > hub-panel
 ```
 
 ```jsx
 <div className="hub-shell">
-  {/* Header global de l'application — hors périmètre HUBCSS */}
+  {/* Global application header — outside the HUBCSS scope */}
   <main className="hub-container">
     <PageHeader
-      title="Employés"
+      title="Employees"
       version="2.28.2"
-      meta="128 employés · 3 sites"
+      meta="128 employees · 3 sites"
       actions={
         <>
-          <button className="hub-button" type="button">Nouvel employé</button>
-          <button className="hub-button hub-button-secondary" type="button">Exporter</button>
+          <button className="hub-button" type="button">New employee</button>
+          <button className="hub-button hub-button-secondary" type="button">Export</button>
         </>
       }
     />
     <section className="hub-panel hub-panel--padded">
-      <div className="hub-toolbar">{/* filtres, tri, recherche — un seul */}</div>
-      {/* contenu : table, liste, formulaire… */}
+      <div className="hub-toolbar">{/* filters, sort, search — exactly one */}</div>
+      {/* content: table, list, form… */}
     </section>
   </main>
 </div>
 ```
 
-Le **document** est la source de scroll de la page : `.hub-shell` occupe `100dvh` et
-la page scrolle normalement. Les zones de scroll local autorisées sont exclusivement
-le body de `.hub-modal` (géré par le composant, voir plus bas) et le scroll
-horizontal des tables. Tout `max-height + overflow-y` improvisé dans une app est une
-violation de la règle.
+The **document** is the page's scroll source: `.hub-shell` occupies `100dvh` and
+the page scrolls normally. The only allowed local scroll areas are the body of
+`.hub-modal` (handled by the component, see below) and horizontal table scroll.
+Any improvised `max-height + overflow-y` in an app violates the rule.
 
-### Les 4 règles
+### The 4 Rules
 
-1. **Un seul retour par page.** Le bouton retour est porté par `PageHeader`
-   (`back`). Le Header global n'en rend pas ; une page racine n'en rend pas non plus.
-2. **Une seule toolbar par page.** Filtres, tri et recherche vivent dans un unique
-   `.hub-toolbar`, premier enfant du panel de contenu.
-3. **Modal ≠ page.** Si le contenu a besoin d'onglets ou de navigation, c'est une
-   route, pas une modal. La modal reste une action courte (confirmation, formulaire).
-4. **Pas de carte dans carte.** Le contenu se pose dans `hub-panel hub-panel--padded`
-   ; ne pas empiler des `.hub-panel` ou `.hub-surface` décoratifs à l'intérieur.
+1. **One back action per page.** The back button is carried by `PageHeader`
+   (`back`). The global header renders none; a root page renders none either.
+2. **One toolbar per page.** Filters, sorting, and search live in a single
+   `.hub-toolbar`, the first child of the content panel.
+3. **Modal ≠ page.** If the content needs tabs or navigation, it is a route,
+   not a modal. A modal stays a short action (confirmation, form).
+4. **No card inside a card.** Content sits in `hub-panel hub-panel--padded`;
+   do not stack decorative `.hub-panel` or `.hub-surface` inside it.
 
 ### PageHeader
 
@@ -238,49 +237,49 @@ violation de la règle.
 import { PageHeader } from '@poutchouli/design-system/react';
 
 <PageHeader
-  title="Poste de travail LT-4218"
-  back={{ onClick: () => navigate('/inventaire'), label: "Retour à l'inventaire" }}
-  badge={<span className="hub-badge hub-badge-success">Actif</span>}
+  title="Workstation LT-4218"
+  back={{ onClick: () => navigate('/inventory'), label: "Back to inventory" }}
+  badge={<span className="hub-badge hub-badge-success">Active</span>}
   version="2.28.2"
-  meta="Modifié le 07/10/2026 par Camille D. · Révision 12"
+  meta="Updated on 2026-10-07 by Camille D. · Revision 12"
   actions={
     <>
-      <button className="hub-button" type="button">Redémarrer</button>
-      <button className="hub-button hub-button-secondary" type="button">Exporter</button>
+      <button className="hub-button" type="button">Restart</button>
+      <button className="hub-button hub-button-secondary" type="button">Export</button>
     </>
   }
 />
 ```
 
-Rendu inline (pas de portal), composant pur sans état interne ; `version` et `meta`
-coexistent sur la même ligne meta, version en premier.
+Rendered inline (no portal), a pure component with no internal state; `version`
+and `meta` share the same meta line, version first.
 
-| Prop | Type | Requis | Rôle |
+| Prop | Type | Required | Role |
 | --- | --- | :---: | --- |
-| `title` | `ReactNode` | oui | Titre de page, rendu dans le `<h1>` — unique par page |
-| `back` | `{ onClick, label? }` | non | Bouton ← ; `label` alimente l'`aria-label` (défaut « Retour ») |
-| `badge` | `ReactNode` | non | Élément à côté du titre, typiquement `hub-badge` |
-| `version` | `string` | non | Pastille `vX.Y.Z` (`tabular-nums`) ; alimentée par l'app, jamais calculée par la DS |
-| `meta` | `ReactNode` | non | Ligne secondaire sous le titre (muted, petite taille) |
-| `actions` | `ReactNode` | non | Boutons d'action, alignés à droite ; passent sous le titre sous 640px |
+| `title` | `ReactNode` | yes | Page title, rendered in the `<h1>` — unique per page |
+| `back` | `{ onClick, label? }` | no | ← button; `label` feeds the `aria-label` (default `Retour`) |
+| `badge` | `ReactNode` | no | Element next to the title, typically `hub-badge` |
+| `version` | `string` | no | `vX.Y.Z` pill (`tabular-nums`); fed by the app, never computed by the DS |
+| `meta` | `ReactNode` | no | Secondary line under the title (muted, small size) |
+| `actions` | `ReactNode` | no | Action buttons, right-aligned; wrap below the title under 640px |
 
-Classes CSS correspondantes :
+Matching CSS classes:
 
-| Classe | Rôle |
+| Class | Role |
 | --- | --- |
-| `.hub-page-header` | Conteneur flex wrap (`align-items: flex-start`, gap `--hub-space-3`) |
-| `.hub-page-header-back` | Bouton retour 40×40 (même style que `hub-icon-button`) |
-| `.hub-page-header-heading` | Bloc titre + meta (flex column, `min-width: 0`) |
-| `.hub-page-header-titlerow` | Ligne titre + badge (flex `align-items: center`) |
-| `.hub-page-header-title` | Porté par le `<h1>` (`--hub-font-size-xl`, semibold) |
-| `.hub-page-header-badge` | Hook de placement du badge, sans style propre |
-| `.hub-page-header-meta` | Ligne meta (muted, `--hub-font-size-sm`, flex wrap) |
-| `.hub-version-pill` | Pastille `vX.Y.Z` (bordure, radius full, `tabular-nums`) |
-| `.hub-page-header-actions` | Actions (`margin-left: auto`, wrap ; sous le titre sous 640px) |
+| `.hub-page-header` | Flex wrap container (`align-items: flex-start`, gap `--hub-space-3`) |
+| `.hub-page-header-back` | 40×40 back button (same style as `hub-icon-button`) |
+| `.hub-page-header-heading` | Title + meta block (flex column, `min-width: 0`) |
+| `.hub-page-header-titlerow` | Title + badge row (flex `align-items: center`) |
+| `.hub-page-header-title` | Carried by the `<h1>` (`--hub-font-size-xl`, semibold) |
+| `.hub-page-header-badge` | Badge placement hook, no styling of its own |
+| `.hub-page-header-meta` | Meta line (muted, `--hub-font-size-sm`, flex wrap) |
+| `.hub-version-pill` | `vX.Y.Z` pill (border, full radius, `tabular-nums`) |
+| `.hub-page-header-actions` | Actions (`margin-left: auto`, wrap; below the title under 640px) |
 
 ### Modal
 
-Confirmation courte (`sm`) :
+Short confirmation (`sm`):
 
 ```jsx
 import { Modal } from '@poutchouli/design-system/react';
@@ -288,84 +287,84 @@ import { Modal } from '@poutchouli/design-system/react';
 <Modal
   open={confirmOpen}
   onClose={() => setConfirmOpen(false)}
-  title="Supprimer le fichier ?"
+  title="Delete this file?"
   size="sm"
   footer={
     <>
-      <button className="hub-button hub-button-secondary" type="button" onClick={() => setConfirmOpen(false)}>Annuler</button>
-      <button className="hub-button" type="button" onClick={confirmerSuppression}>Supprimer</button>
+      <button className="hub-button hub-button-secondary" type="button" onClick={() => setConfirmOpen(false)}>Cancel</button>
+      <button className="hub-button" type="button" onClick={confirmDelete}>Delete</button>
     </>
   }
 >
-  <div className="hub-alert hub-alert-danger">Cette action est définitive.</div>
+  <div className="hub-alert hub-alert-danger">This action is permanent.</div>
 </Modal>
 ```
 
-Formulaire (`md`, taille par défaut) :
+Form (`md`, the default size):
 
 ```jsx
 <Modal
   open={formOpen}
   onClose={() => setFormOpen(false)}
-  title="Déclarer un nouvel équipement"
+  title="Declare a new equipment"
   footer={
     <>
-      <button className="hub-button hub-button-secondary" type="button" onClick={() => setFormOpen(false)}>Annuler</button>
-      <button className="hub-button" type="button">Enregistrer</button>
+      <button className="hub-button hub-button-secondary" type="button" onClick={() => setFormOpen(false)}>Cancel</button>
+      <button className="hub-button" type="button">Save</button>
     </>
   }
 >
   <label className="hub-field">
-    <span className="hub-label">Nom</span>
+    <span className="hub-label">Name</span>
     <input className="hub-input" />
   </label>
-  {/* …autres champs : le body scrolle seul, header et footer restent fixes */}
+  {/* …other fields: only the body scrolls, header and footer stay fixed */}
 </Modal>
 ```
 
-Le composant gère lui-même : rendu en portal vers `document.body` (`null` si
-`open` est faux), fermeture par Escape, ✕ et clic sur le fond (désactivable via
-`closeOnBackdrop`), focus trap avec focus initial et restauration du focus sur
-l'élément déclencheur, et scroll-lock du body (compatible modals empilées).
-Sous 640px, la modal se pose en panneau bas pleine largeur.
+The component handles on its own: portal rendering into `document.body`
+(`null` when `open` is false), closing on Escape, ✕, and backdrop click
+(disable via `closeOnBackdrop`), a focus trap with initial focus and focus
+restoration to the trigger element, and body scroll-lock (compatible with
+stacked modals). Below 640px, the modal docks as a full-width bottom panel.
 
-| Prop | Type | Requis | Défaut | Rôle |
+| Prop | Type | Required | Default | Role |
 | --- | --- | :---: | --- | --- |
-| `open` | `boolean` | oui | — | Contrôle d'ouverture |
-| `onClose` | `() => void` | oui | — | Appelé par Escape, ✕ et clic sur le fond |
-| `title` | `ReactNode` | oui | — | Titre de la dialog, lié par `aria-labelledby` |
-| `size` | `'sm' \| 'md' \| 'lg'` | non | `'md'` | Largeur maximale : 400 / 560 / 720 px |
-| `children` | `ReactNode` | oui | — | Contenu du body, seule zone scrollable |
-| `footer` | `ReactNode` | non | — | Zone d'actions fixe sous le body |
-| `closeOnBackdrop` | `boolean` | non | `true` | Fermeture au clic sur le fond |
+| `open` | `boolean` | yes | — | Open state control |
+| `onClose` | `() => void` | yes | — | Called by Escape, ✕, and backdrop click |
+| `title` | `ReactNode` | yes | — | Dialog title, linked by `aria-labelledby` |
+| `size` | `'sm' \| 'md' \| 'lg'` | no | `'md'` | Max width: 400 / 560 / 720 px |
+| `children` | `ReactNode` | yes | — | Body content, the only scrollable area |
+| `footer` | `ReactNode` | no | — | Fixed action area under the body |
+| `closeOnBackdrop` | `boolean` | no | `true` | Close on backdrop click |
 
-Classes CSS correspondantes :
+Matching CSS classes:
 
-| Classe | Rôle |
+| Class | Role |
 | --- | --- |
-| `.hub-modal-backdrop` | Scrim `fixed` plein écran (`--hub-z-overlay`, fade 120ms) |
-| `.hub-modal` | Dialog flex column (`--hub-z-modal`, `max-height: 85dvh`) |
-| `.hub-modal--sm` / `.hub-modal--lg` | `max-width` 400px / 720px (le `md` implicite fait 560px) |
-| `.hub-modal-header` | En-tête fixe : titre + bouton ✕ |
-| `.hub-modal-title` | Titre de la dialog (`<h2>`, semibold) |
-| `.hub-modal-body` | Body — **seule zone scrollable** de la modal |
-| `.hub-modal-footer` | Pied fixe : actions alignées à droite, fond `--hub-color-surface-muted` |
+| `.hub-modal-backdrop` | Full-screen `fixed` scrim (`--hub-z-overlay`, 120ms fade) |
+| `.hub-modal` | Flex column dialog (`--hub-z-modal`, `max-height: 85dvh`) |
+| `.hub-modal--sm` / `.hub-modal--lg` | `max-width` 400px / 720px (the implicit `md` is 560px) |
+| `.hub-modal-header` | Fixed header: title + ✕ button |
+| `.hub-modal-title` | Dialog title (`<h2>`, semibold) |
+| `.hub-modal-body` | Body — **the only scrollable area** of the modal |
+| `.hub-modal-footer` | Fixed footer: right-aligned actions, `--hub-color-surface-muted` background |
 
-### Échelle z-index
+### Z-Index Scale
 
-Ne jamais coder de z-index en dur dans une app : utiliser les tokens ci-dessous, en
-respectant l'ordre des couches.
+Never hardcode z-index values in an app: use the tokens below, respecting
+the layer order.
 
-| Token | Valeur | Usage |
+| Token | Value | Usage |
 | --- | ---: | --- |
-| `--hub-z-sticky` | 100 | Éléments sticky de l'app (Header global) |
-| `--hub-z-overlay` | 200 | Scrim de la modal |
-| `--hub-z-modal` | 300 | Dialog, au-dessus du scrim |
-| `--hub-z-toast` | 400 | Réserve pour les toasts/messages — ne pas consommer avant l'existence du composant |
+| `--hub-z-sticky` | 100 | App sticky elements (global header) |
+| `--hub-z-overlay` | 200 | Modal scrim |
+| `--hub-z-modal` | 300 | Dialog, above the scrim |
+| `--hub-z-toast` | 400 | Reserved for toasts/messages — do not consume before the component exists |
 
-L'échelle est theme-agnostique : aucune redéfinition sous `[data-theme="dark"]`. Les
-z-index internes des composants DS existants (Timeline : 1 à 10) restent sous cette
-échelle ; leur tokenisation est prévue dans un lot ultérieur.
+The scale is theme-agnostic: no redefinition under `[data-theme="dark"]`. The
+internal z-indexes of the existing DS components (Timeline: 1 to 10) remain
+below this scale; tokenizing them is planned in a later batch.
 
 ## Runtime Asset Requirement
 
@@ -375,9 +374,9 @@ canonical mode), these files are **committed inside the app** and updated
 deliberately:
 
 ```bash
-make update-ds   # copie les assets depuis HUBCSS du stack, sha256 vérifiés
-git diff         # la version est visible dans current/manifest.json
-git commit       # la montée de version est un commit reviewable
+make update-ds   # copies assets from the stack's HUBCSS, sha256 verified
+git diff         # the version is visible in current/manifest.json
+git commit       # the version bump is a reviewable commit
 ```
 
 Minimum expectation for one application:
