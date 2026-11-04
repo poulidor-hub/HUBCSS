@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 export interface TimelineEvent {
   id?: string | number;
   timestamp?: string;

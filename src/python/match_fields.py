@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 """
 Generic badge search match-fields helpers.
 

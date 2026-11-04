@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 import type { SVGProps } from 'react';
 
 export interface IconProps extends SVGProps<SVGSVGElement> {
