@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (C) 2026 POULIDOR Audit & Développement (Valérian Poulidor)
+
 export { Icon } from './Icon.js';
 export { setIconSpriteHref } from './Icon.js';
 export { HighlightText } from './HighlightText.js';
