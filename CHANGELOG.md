@@ -1,3 +1,11 @@
+## [0.3.5] - 4 November 2026
+
+### ⚡ Open-source documentation cleanup
+
+- Internal `docs/superpowers/` artifacts untracked (kept locally) and gitignored
+- `docs/HOW2USE.md` fully translated to English (page structure section, build outputs, barrel npm notes) — all `hub-*` class names and `--hub-*` tokens unchanged
+- Version badge synced to package.json (0.3.5)
+
 ## [0.3.4] - 4 novembre 2026
 
 ### ⚡ Licence open source MIT + en-têtes SPDX
