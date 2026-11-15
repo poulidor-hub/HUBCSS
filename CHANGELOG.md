@@ -1,3 +1,10 @@
+## [0.3.6] - 15 November 2026
+
+### ⚡ Fix: nosniff header lost in cache locations (nginx add_header inheritance)
+
+- nginx semantics: a location defining any add_header inherits NONE from the server block → the 4 cache locations of nginx/design-system.conf lost the server-level `X-Content-Type-Options: nosniff`.
+- Fix: nosniff add_header repeated at the top of each of the 4 locations (conf NOT deployed anywhere today — preventive, validated by nginx -t).
+
 ## [0.3.5] - 4 November 2026
 
 ### ⚡ Open-source documentation cleanup
