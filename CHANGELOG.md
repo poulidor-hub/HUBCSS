@@ -1,3 +1,15 @@
+## [0.3.8] - 26 November 2026
+
+### Fix: public README updated — neighbour URLs now point poulidor-hub, deployment update section added
+
+- Neighbour repo URLs now point the public repositories (poulidor-hub): HUB_base →
+  `poulidor-hub/HUB`, HUBapp_TEMPLATE_base → `poulidor-hub/HUBapp-template`, and the
+  Status section repository → `poulidor-hub/HUBCSS`.
+- Update section added ("Updating a deployment"): fetch upstream + `--ff-only` merge +
+  `git submodule update --init --recursive` from the deployment root, the public
+  repository being read-only for clients.
+- No runtime change (README + version metadata only).
+
 ## [0.3.7] - 26 November 2026
 
 ### Fix: example React dependencies up to date — closes the 13 Dependabot alerts
