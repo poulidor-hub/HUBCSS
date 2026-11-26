@@ -1,6 +1,6 @@
 # HUBCSS
 
-![version](https://img.shields.io/badge/version-0.3.5-blue)
+![version](https://img.shields.io/badge/version-0.3.7-blue)
 ![npm](https://img.shields.io/badge/npm-@poutchouli%2Fdesign-system-blue)
 
 HUBCSS is the design-system source used by the Hub and Hub-connected
@@ -31,10 +31,18 @@ flowchart LR
 The Hub is the runtime distributor: an administrator uploads the packed artifact under
 **Admin > Design System**, and applications keep a local seed fallback, then sync the
 canonical bundle from the Hub manifest. Sibling repos:
-[HUB_base](https://github.com/POULIDOR-Audit-Developpement/HUB_base) (serves the
+[HUB_base](https://github.com/poulidor-hub/HUB) (serves the
 runtime assets) and
-[HUBapp_TEMPLATE_base](https://github.com/POULIDOR-Audit-Developpement/HUBapp_TEMPLATE_base)
+[HUBapp_TEMPLATE_base](https://github.com/poulidor-hub/HUBapp-template)
 (consumes the design system in generated apps).
+
+### Updating a deployment
+
+The design system is consumed by deployments through the
+[POULIDOR](https://github.com/poulidor-hub/POULIDOR) meta-repository (submodule):
+a deployment updates from its root — `git fetch upstream && git merge --ff-only
+upstream/main && git submodule update --init --recursive` — this public repository
+being read-only for clients.
 
 ## Status
 
@@ -44,7 +52,7 @@ produces a `dist.tar.gz` that an administrator uploads in the Hub under
 **Admin > Design System**. Applications keep a local seed fallback, then sync
 the canonical runtime bundle from `/api/design-system/manifest`.
 
-Public source repository: <https://github.com/POULIDOR-Audit-Developpement/HUBCSS>
+Public source repository: <https://github.com/poulidor-hub/HUBCSS>
 
 ## Install
 
