@@ -1,3 +1,10 @@
+## [0.3.7] - 26 November 2026
+
+### Fix: example React dependencies up to date — closes the 13 Dependabot alerts
+
+- `examples/minimal-react/package-lock.json` updated: vite 8.1.6+ (now 8.3.8), nanoid
+  3.3.20, postcss 8.5.33, source-map-js 1.2.4. `npm audit`: 0 vulnerabilities.
+- Example build verified with the freshly built design system.
 ## [0.3.6] - 15 November 2026
 
 ### ⚡ Fix: nosniff header lost in cache locations (nginx add_header inheritance)
