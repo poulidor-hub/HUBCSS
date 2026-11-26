@@ -1,6 +1,6 @@
 {
   "name": "@poutchouli/design-system",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Local-first Tailwind CSS v4 design system with Lucide SVG sprites.",
   "keywords": [
     "design-system",
